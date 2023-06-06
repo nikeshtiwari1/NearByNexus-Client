@@ -13,7 +13,7 @@ const login = async (req, res) => {
     req.session.userId = loginDetail.data.detail.user._id;
     req.session.token = loginDetail.data.detail.token;
     console.log("Stored token", req.session.userId);
-    res.redirect('/events');
+    res.redirect('/event');
   } catch (error) {
     console.log("error on controller", token);
     res.render("login.ejs");

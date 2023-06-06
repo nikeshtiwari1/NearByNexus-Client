@@ -12,7 +12,7 @@ router.post("/register",registerUser);
 
 router.get("/profile",profile);
 
-router.get("/events",eventController.event);
+router.get("/event",eventController.event);
 
 
 module.exports = router;
