@@ -13,15 +13,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    secret: "fhrgfgrfrty84fwir767",
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false,
-    username : "",
-    userType : ""
+    userId : "",
+    token : ""
 
 }));
+
 app.use("/", router);
+
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
