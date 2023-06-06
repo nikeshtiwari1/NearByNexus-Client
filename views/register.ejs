@@ -1,5 +1,5 @@
 <%- include('partials/navbar.ejs') %>
-<form method="POST">
+<form method="POST" action="/register">
   <div class="container text-center mt-5 col-lg-4">
     <h5>Create your NearByNexus Account</h5>
   </div>
@@ -12,7 +12,7 @@
           type="text"
           class="form-control"
           placeholder="Please enter your fullname"
-          name="fullname"
+          name="name"
         />
       </div>
 
@@ -32,7 +32,7 @@
           type="text"
           class="form-control"
           placeholder="Enter your phone number"
-          name="phone"
+          name="phoneNumber"
         />
       </div>
 
@@ -47,7 +47,7 @@
           type="date"
           class="form-control"
           placeholder="Birth Date"
-          name="birth_date"
+          name="dateOfBirth"
         />
       </div>
 

@@ -1,12 +1,11 @@
-const axios = require('axios');
+const axios = require("axios");
 
-const login = async (email,password) => {
+const login = async (email, password) => {
   try {
-
     // Make a POST request to the login endpoint
-    const response = await axios.post('http://localhost:3000/login', {
+    const response = await axios.post("http://localhost:3000/login", {
       email,
-      password
+      password,
     });
 
     // Extract the data from the response
@@ -16,10 +15,32 @@ const login = async (email,password) => {
     return { data };
   } catch (error) {
     // Handle any error that occurred during the API call
-    console.error('Error:', error);
-    throw new Error('Error:', error);
-    
+    console.error("Error:", error);
+    throw new Error("Error:", error);
   }
 };
 
-module.exports = { login };
+const register = async (name, email, password, phoneNumber, dateOfBirth) => {
+  try {
+    // Make a POST request to the login endpoint
+    const response = await axios.post("http://localhost:3000/register", {
+      name,
+      email,
+      password,
+      phoneNumber,
+      dateOfBirth
+    });
+
+    // Extract the data from the response
+    const data = response.data;
+
+    // Pass the data to the view
+    return { data };
+  } catch (error) {
+    // Handle any error that occurred during the API call
+    console.error("Error:", error);
+    throw new Error("Error:", error);
+  }
+};
+
+module.exports = { login, register };
