@@ -21,8 +21,12 @@ const login = async (req, res) => {
 };
 
 const register = (req, res) => {
-  console.log("Stored token", req.session.toekn);
+  console.log("Stored token", req.session.token);
   res.render("register.ejs");
+};
+
+const profile = (req, res) => {
+  res.render("profile.ejs");
 };
 
 const registerUser = async (req, res) => {
@@ -37,4 +41,4 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { home, register, login, registerUser };
+module.exports = { home, register, login, registerUser,profile };
