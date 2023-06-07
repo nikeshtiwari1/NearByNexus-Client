@@ -43,4 +43,25 @@ const register = async (name, email, password, phoneNumber, dateOfBirth) => {
   }
 };
 
-module.exports = { login, register };
+
+const getProfile = async (token) => {
+  try {
+    const response = await axios.get("http://localhost:3000/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // Extract the data from the response
+    const data = response.data.detail;
+
+    // Pass the data to the view
+    return { data };
+  } catch (error) {
+    // Handle any error that occurred during the API call
+    console.error("Error:", error);
+    throw new Error("Error:", error);
+  }
+};
+
+module.exports = { login, register,getProfile };

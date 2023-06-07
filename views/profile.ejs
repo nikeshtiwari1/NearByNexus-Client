@@ -1,13 +1,13 @@
 <%- include('partials/navbar.ejs') %>
 <br><br>
 
-	<div class="card-profile">
+	<div class="card-profile card">
   <img src="images/avatar.png" alt="Profile" style="height:200px; width: 100%">
-  <h1>FullName</h1>
-  <p class="title">Email@conestogac.on.ca</p>
-  <p><b>Phone No.: </b>+11234567890</p>
-  <p><b>Address: </b>Waterloo</p>
-  <p><b>Birthday: </b>2023/11/21</p>
+  <h1><%= profile.name %></h1>
+  <p class="title"><%= profile.email %></p>
+  <p><b>Phone No.: </b>+<%= profile.phoneNumber %></p>
+  <p><b>Address: </b><%= profile.address %></p>
+  <p><b>Birthday: </b><%= profile.dateOfBirth %></p>
 
   <!-- Trigger the modal with a button -->
   <p><button type="button" class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Update Profile</button></p>
@@ -25,10 +25,10 @@
         </div>
         <div class="modal-body">
 
-            <form method="POST">
+            <form method="POST" action="/profile">
                 <div class="form-group">
                   <label for="full_name">Full Name:</label>
-                  <input type="text" class="form-control" id="full_name" value="" name="full_name">
+                  <input type="text" class="form-control" id="full_name" value="" name="name">
                 </div>
                 <div class="form-group">
                   <label for="email">Email:</label>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                   <label for="phone_no">Phone No.:</label>
-                  <input type="text" class="form-control" id="phone_no" value="" name="phone_no">
+                  <input type="text" class="form-control" id="phone_no" value="" name="phoneNumber">
                 </div>
                 <div class="form-group">
                   <label for="address">Address:</label>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label for="birthday">Birthday:</label>
-                    <input type="date" class="form-control" id="birthday" value="" name="birthday" disabled>
+                    <input type="date" class="form-control" id="birthday" value="" name="dateOfBirth" disabled>
                   </div>
                 <hr>
                 <div class="d-grid">
