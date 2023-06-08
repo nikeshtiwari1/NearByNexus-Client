@@ -1,3 +1,7 @@
+body{
+  background-color: rgb(228, 227, 227);
+}
+
 .card-profile {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
@@ -9,3 +13,79 @@
   .form-group {
     text-align: left;
   }
+
+  /* event create */
+
+  .event_post {
+    border-radius: 0;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding:0;
+}
+
+.event_post .glyphicon,
+.event_post .fa,
+.event_post [class^='icon-'],
+.event_post [class*='icon-'] {
+    font-weight: bold;
+    color: #999999;
+}
+
+.event_post a,
+.event_post a:hover,
+.event_post a:active,
+.event_post a:focus {
+    text-decoration: none;
+}
+
+.event_post .list-inline {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.event_post .list-inline li {
+    position: relative;
+}
+
+.event_post .list-inline li.active::after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    content: "";
+    top: 30px;
+    left: 50%;
+    left: -webkit-calc(50% - 5px);
+    left: -moz-calc(50%-5px);
+    left: calc(50% - 5px);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #dddddd;
+}
+
+.event_post .list-inline li.active a {
+    color: #222222;
+    font-weight: bold;
+}
+
+.event_post .form-control {
+    width: 100%;
+    min-height: 100px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.event_post .list-inline {
+    padding: 10px;
+}
+
+.event_post .list-inline li + li {
+    margin-left: 10px;
+}
+
+.event_post .post-actions {
+    margin: 0;
+    background-color: #f6f7f8;
+    border-top-color: #e9eaed;
+}      
