@@ -7,6 +7,16 @@ const home = async (req, res) => {
   else res.render("login.ejs");
 };
 
+const logout = async (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    } else {
+      res.redirect('/login'); 
+    }
+  });
+};
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -30,8 +40,9 @@ const register = (req, res) => {
 };
 
 const profile = async (req, res) => {
+  console.log("profile");
+
   const profile = await homeService.getProfile(req.session.token);
-  console.log("profile", profile);
 
   res.render("profile.ejs", { profile: profile.data });
 };
@@ -54,4 +65,4 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { home, register, login, registerUser, profile };
+module.exports = { home, register, login, registerUser, profile,logout };

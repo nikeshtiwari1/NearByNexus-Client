@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const cors = require('cors');
+require('@marvnet/express-dynamic-helpers-patch')(app);
 
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
@@ -21,7 +22,12 @@ app.use(sessions({
     token : ""
 
 }));
-
+app.dynamicHelpers({
+  userDetail: function(req, res){
+    if(req.session && req.session.userId)
+      return {userId: req.session.userId};
+  }
+});
 app.use("/", router);
 
 app.use(cors());
