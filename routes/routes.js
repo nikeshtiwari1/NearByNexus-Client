@@ -11,6 +11,8 @@ router.post("/login",login);
 router.post("/forget-password",passwordController.forgetPassword);
 router.get("/password-reset/request",passwordController.validateToken);
 router.get('/change-password' , passwordController.changePassword);
+router.post('/change-password' , passwordController.confirmChangePassword);
+
 router.get("/register",register);
 router.post("/register",registerUser);
 

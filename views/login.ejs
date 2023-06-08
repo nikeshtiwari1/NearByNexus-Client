@@ -4,6 +4,16 @@
     <h5>Welcome to NearByNexus! Please Login</h5>
   </div>
   <div class="container col-lg-4 mt-3 bg-white rounded">
+    <% if (typeof message !== 'undefined') { %>
+      <div class="alert alert-success">
+        <%= message %>
+      </div>
+    <% } %>
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
+    <% } %>
     <br>
     <label for="demo" class="col-lg-12">Email</label>
     <div class="input-group col-lg-12 mb-3">

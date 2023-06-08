@@ -20,12 +20,13 @@ const login = async (req, res) => {
     res.redirect("/event");
   } catch (error) {
     console.log("error on controller", error);
-    res.render("login.ejs");
+    res.render("login.ejs",{error:'Username or password not valid!'});
   }
 };
 
 const register = (req, res) => {
-  res.render("register.ejs");
+  if (req.session && req.session.userId != null) res.redirect("/event");
+  else res.render("register.ejs");
 };
 
 const profile = async (req, res) => {
