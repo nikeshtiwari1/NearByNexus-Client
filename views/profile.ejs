@@ -1,8 +1,14 @@
-<%- include('partials/navbar.ejs') %>
-<br><br>
+<%- include('partials/navbar.ejs') %> <br /><br />
 
-	<div class="card-profile card">
-  <img src="images/avatar.png" alt="Profile" style="height:200px; width: 100%">
+<div class="card-profile card">
+  <% if (typeof message !== 'undefined') { %>
+  <div class="alert alert-success"><%= message %></div>
+  <% } %>
+  <img
+    src="images/avatar.png"
+    alt="Profile"
+    style="height: 200px; width: 100%"
+  />
   <h1><%= profile.name %></h1>
   <p class="title"><%= profile.email %></p>
   <p><b>Phone No.: </b>+<%= profile.phoneNumber %></p>
@@ -10,58 +16,105 @@
   <p><b>Birthday: </b><%= profile.dateOfBirth %></p>
 
   <!-- Trigger the modal with a button -->
-  <p><button type="button" class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Update Profile</button></p>
-
+  <p>
+    <button
+      type="button"
+      class="btn btn-lg btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#myModal"
+    >
+      Update Profile
+    </button>
+  </p>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-bs-dismiss="modal">
+            &times;
+          </button>
           <h4 class="modal-title">Update Profile</h4>
         </div>
         <div class="modal-body">
-
-            <form method="POST" action="/profile">
-                <div class="form-group">
-                  <label for="full_name">Full Name:</label>
-                  <input type="text" class="form-control" id="full_name" value="" name="name">
-                </div>
-                <div class="form-group">
-                  <label for="email">Email:</label>
-                  <input type="email" class="form-control" id="email" value="ntiwari7499@conestogac.on.ca" name="email" disabled>
-                </div>
-                <div class="form-group">
-                  <label for="phone_no">Phone No.:</label>
-                  <input type="text" class="form-control" id="phone_no" value="" name="phoneNumber">
-                </div>
-                <div class="form-group">
-                  <label for="address">Address:</label>
-                  <input type="text" class="form-control" id="address" value="" name="address">
-                </div>
-                <div class="form-group">
-                    <label for="birthday">Birthday:</label>
-                    <input type="date" class="form-control" id="birthday" value="" name="dateOfBirth" disabled>
-                  </div>
-                <hr>
-                <div class="d-grid">
-                <button id="submit" name="update" class="btn btn-success btn-block">Update</button><br>
-                </div>
-              </form>
-
-
+          <form method="POST" action="/profile">
+            <div class="form-group">
+              <label for="full_name">Full Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="full_name"
+                value="<%= profile.name %>"
+                name="name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                value="<%= profile.email %>"
+                name="email"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone_no">Phone No.:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="phone_no"
+                value="<%= profile.phoneNumber %>"
+                name="phoneNumber"
+              />
+            </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                value="<%= profile.address %>"
+                name="address"
+              />
+            </div>
+            <div class="form-group">
+              <% const dateParts = profile.dateOfBirth.split('/'); %> 
+              <% const
+              formattedDate = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`;
+              %>
+              <label for="birthday">Birthday:</label>
+              <input
+                type="date"
+                class="form-control"
+                id="birthday"
+                value="<%= formattedDate %>"
+                name="dateOfBirth"
+                disabled
+              />
+            </div>
+            <hr />
+            <div class="d-grid">
+              <button
+                id="submit"
+                name="update"
+                class="btn btn-success btn-block"
+              >
+                Update</button
+              ><br />
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Cancel
+          </button>
         </div>
       </div>
-      
     </div>
   </div>
-  
-
 </div>
 <%- include('partials/footer.ejs') %>

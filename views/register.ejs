@@ -2,9 +2,14 @@
 <form method="POST" action="/register">
   <div class="container text-center mt-5 col-lg-4">
     <h5>Create your NearByNexus Account</h5>
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-danger text-center"><%= error %></div>
+      <% } %>
   </div>
   <div class="row col-lg-12 mod-register justify-content-center mt-3">
+    
     <div class="col-lg-4 mod-register-1 bg-white">
+  
       <br />
       <label class="col-lg-12">Fullname</label>
       <div class="input-group col-lg-12 mb-3">
@@ -13,6 +18,7 @@
           class="form-control"
           placeholder="Please enter your fullname"
           name="name"
+          value="<%= typeof name !== 'undefined' ? name : '' %>"
         />
       </div>
 
@@ -23,16 +29,18 @@
           class="form-control"
           placeholder="Please enter your email"
           name="email"
+          value="<%= typeof email !== 'undefined' ? email : '' %>"
         />
       </div>
 
       <label class="col-lg-12">Phone</label>
-      <div class="input-group col-lg-12 mb-3">
+      <div class="input-group col-lg-12">
         <input
           type="text"
           class="form-control"
           placeholder="Enter your phone number"
           name="phoneNumber"
+          value="<%= typeof phoneNumber !== 'undefined' ? phoneNumber : '' %>"
         />
       </div>
 
@@ -48,6 +56,8 @@
           class="form-control"
           placeholder="Birth Date"
           name="dateOfBirth"
+          value="<%= typeof dateOfBirth !== 'undefined' ? dateOfBirth : '' %>"
+
         />
       </div>
 
@@ -61,15 +71,26 @@
         />
       </div>
 
-      <div class="col-lg-12 mt-2">
-        <hr />
+      <label class="col-lg-12">Confirm Password</label>
+      <div class="input-group col-lg-12s">
         <input
-          type="submit"
-          class="btn btn-success btn-lg col-lg-12"
-          value="Register"
-          name="buyer_register"
+          type="password"
+          class="form-control"
+          placeholder="Minimum 8 characters with number and a letter"
+          name="confirmPassword"
         />
       </div>
+    </div>
+    
+    <div class="col-lg-8 bg-white">
+      <hr />
+      <input
+        type="submit"
+        class="btn btn-success btn-lg col-lg-12 mb-2"
+        value="Register"
+        name="buyer_register"
+      />
+     
     </div>
   </div>
   <div class="container text-right col-lg-8 mt-2">

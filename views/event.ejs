@@ -1,54 +1,159 @@
-
-
 <%- include('partials/navbar.ejs') %>
-    <div class="container bootstrap snippets bootdey mt-5">
-        <div class="row d-flex align-items-center justify-content-center">
-            <div class="col-md-5">
-                <div class="well well-sm event_post">
-            <form>
-                <textarea class="form-control" placeholder="What's in your mind?"></textarea>
-                <button class="btn btn-primary btn-sm m-2" onclick="document.getElementById('getFile').click()">Add Images</button>
-                        <input type='file' id="getFile" style="display:none">
-                <ul class='list-inline post-actions'>
-                    <li class='d-grid'><a href="#" class='btn btn-success btn-xs btn-block'>Post</a></li>
-                </ul>
-            </form>
-                </div>
+<div class="container bootstrap snippets bootdey mt-9">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-md-9">
+      <div class="well well-sm event_post">
+        <button
+          aria-live="off"
+          type="button"
+          id="main_content"
+          class="post-btn post-btn-custom"
+          data-bs-toggle="modal"
+          data-bs-target="#postMaodal"
+        >
+          <span class="post-span"
+            ><div class="avatar">
+              <img
+                class="avatar-image avatar-image-redesign user-avatar-redesign resized-image"
+                alt=""
+                height="76"
+                width="76"
+                data-pin-nopin="true"
+                src="images/avatar.png"
+                style="height: 40px; width: 40px"
+              /></div
+          ></span>
+          <div class="post-text post-text-padding">
+            <div class="post-div2 post-div1 post-div">
+              <span class="_375H1e8H">What’s on your mind, neighbour?</span>
             </div>
-        </div>
-    </div>  
-
-
-	<div class="container mt-3 mb-5">
-    <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-md-5">
-            <div class="card">
-                <div class="d-flex justify-content-between p-1 px-2">
-                    <div class="d-flex flex-row align-items-center"> <img src="images/avatar.png" width="50" class="rounded-circle">
-                        <div class="d-flex flex-column ms-2"> <span class="fw-bold fs-5">Full Name</span></div>
-                    </div>
-                </div> <img src="images/avatar.png" class="img-fluid">
-                <div class="p-2">
-                    <p class="text-justify">Welcome to NextByNexus.</p>
-                    <hr>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <button class="btn btn-primary" type="button">
-					      <span> <i class="fa-brands"></i></span> <span>Like</span>
-					    </button>
-                        <div class="d-flex flex-row muted-color"> <span>1 comment</span></div>
-                    </div>
-                    <hr>
-                    <div class="comments">
-                        <div class="d-flex flex-row mb-2"> <img src="images/avatar.png" width="40" class="rounded-circle">
-                            <div class="d-flex flex-column ms-2"> <span class="fw-bold">Nikesh Tiwari</span> <small class="comment-text">Congratulations</small>
-                            </div>
-                        </div>
-                        <div class="comment-input"> <input type="text" class="form-control" placeholder="Comment...">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+          </div>
+        </button>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="container mt-3 mb-9">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-md-9">
+      <div class="card card-shadow">
+        <div class="d-flex justify-content-between p-1 px-2">
+          <div class="d-flex flex-row align-items-center">
+            <img src="images/avatar.png" width="50" class="rounded-circle" />
+            <div class="d-flex flex-column ms-2">
+              <span class="fw-bold fs-5">Full Name</span>
+            </div>
+          </div>
+        </div>
+        <img src="images/avatar.png" class="img-fluid" />
+        <div class="p-2">
+          <p class="text-justify">Welcome to NextByNexus.</p>
+          <hr />
+          <div class="d-flex justify-content-between align-items-center">
+            <button class="btn btn-primary" type="button">
+              <span> <i class="fa-brands"></i></span> <span>Like</span>
+            </button>
+            <div class="d-flex flex-row muted-color">
+              <span>1 comment</span>
+            </div>
+          </div>
+          <hr />
+          <div class="comments">
+            <div class="d-flex flex-row mb-2">
+              <img src="images/avatar.png" width="40" class="rounded-circle" />
+              <div class="d-flex flex-column ms-2">
+                <span class="fw-bold">Nikesh Tiwari</span>
+                <small class="comment-text">Congratulations</small>
+              </div>
+            </div>
+            <div class="comment-input">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Comment..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="postMaodal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="postMaodal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body px-5">
+        <form>
+          <div class="form-outline">
+            <input
+              type="text"
+              name="post"
+              id="post"
+              class="form-control my-3 form-rounded form-control-lg h-75"
+              placeholder="What's on your mind, neighbour?"
+            />
+            <div class="text-left mb-3" style="text-align: left">
+              <a class="icon-link text-decoration-none text-success" href="#">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-geo-alt .text-success"></i>
+                </div>
+                Add a location
+              </a>
+            </div>
+
+            <div style="text-align: left" class="mt-4">
+              <a
+                class="icon-link text-decoration-none fw-bold text-primary"
+                href="#"
+              >
+                <div class="d-flex align-items-center mt-2">
+                  <i class="bi bi-image text-primary mb-2"></i>
+                </div>
+                Add photo or video
+              </a>
+              <br />
+              <a
+                class="icon-link text-decoration-none fw-bold text-info"
+                href="#"
+              >
+                <div class="d-flex align-items-center mt-2">
+                  <i class="bi bi-calendar-event text-info mb-2"></i>
+                </div>
+                Create an Event
+              </a>
+              <br />
+              <a
+                class="icon-link text-decoration-none fw-bold text-warning d-flex align-items-center"
+                href="#"
+              >
+                <div class="d-flex align-items-center mt-2">
+                  <i class="bi bi-image bg text-warning mb-2"></i>
+                </div>
+                Saftey Event
+              </a>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-custom text-white rounded"
+            style="float: right"
+          >
+            <i class="bi bi-plus-lg text-white fw-bold"></i> Post
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

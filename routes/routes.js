@@ -7,6 +7,7 @@ const {
   registerUser,
   profile,
   logout,
+  updateProfile
 } = require("../contoller/homecontoller.js");
 
 const eventController = require("../contoller/eventController.js");
@@ -25,6 +26,8 @@ router.get("/register", register);
 router.post("/register", registerUser);
 
 router.get("/profile",checkAuth, profile);
+router.post("/profile",checkAuth, updateProfile);
+
 router.get("/logout", logout);
 router.get("/event", checkAuth, eventController.event);
 

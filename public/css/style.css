@@ -1,5 +1,5 @@
-body{
-  background-color: rgb(228, 227, 227);
+body {
+    background-color: #ffffff;
 }
 
 .card-profile {
@@ -8,19 +8,19 @@ body{
     margin: auto;
     text-align: center;
     font-family: arial;
-  }
-  
-  .form-group {
+}
+
+.form-group {
     text-align: left;
-  }
+}
 
-  /* event create */
+/* event create */
 
-  .event_post {
+.event_post {
     border-radius: 0;
     background-color: #ffffff;
     border: 1px solid #ddd;
-    padding:0;
+    padding: 0;
 }
 
 .event_post .glyphicon,
@@ -80,7 +80,7 @@ body{
     padding: 10px;
 }
 
-.event_post .list-inline li + li {
+.event_post .list-inline li+li {
     margin-left: 10px;
 }
 
@@ -88,4 +88,52 @@ body{
     margin: 0;
     background-color: #f6f7f8;
     border-top-color: #e9eaed;
-}      
+}
+
+.card-shadow {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+}
+
+.post-div {
+    color: #000000;
+    padding: 10px 12px 10px 20px;
+    background-color: #e5e5e5;;
+    border-radius: 20px;
+    min-height: 40px;
+}
+.post-text-padding {
+    padding-right: 0;
+}
+
+.post-text {
+    padding-left: 12px;
+    padding-right: 16px;
+    display: inline-block;
+    width: 100%;
+}
+button.post-btn {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.post-btn-custom {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+.avatar-image.avatar-image-redesign.user-avatar-redesign {
+    border-radius: 50%;
+}
+.btn-custom {
+    background-color: #6528e0;
+}
+.btn-custom:hover {
+    background-color: #5926be;
+  }

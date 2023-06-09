@@ -10,9 +10,9 @@ const home = async (req, res) => {
 const logout = async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.error('Error destroying session:', err);
+      console.error("Error destroying session:", err);
     } else {
-      res.redirect('/login'); 
+      res.redirect("/login");
     }
   });
 };
@@ -30,7 +30,7 @@ const login = async (req, res) => {
     res.redirect("/event");
   } catch (error) {
     console.log("error on controller", error);
-    res.render("login.ejs",{error:'Username or password not valid!'});
+    res.render("login.ejs", { error: "Username or password not valid!" });
   }
 };
 
@@ -40,15 +40,39 @@ const register = (req, res) => {
 };
 
 const profile = async (req, res) => {
-  console.log("profile");
+  const successMessage = req.query.message;
 
   const profile = await homeService.getProfile(req.session.token);
 
-  res.render("profile.ejs", { profile: profile.data });
+  res.render("profile.ejs", { profile: profile.data, message: successMessage });
 };
 
 const registerUser = async (req, res) => {
-  const { name, email, password, phoneNumber, dateOfBirth } = req.body;
+  const { name, email, password, phoneNumber, dateOfBirth, confirmPassword } =
+    req.body;
+  if (password !== confirmPassword) {
+    // Passwords don't match, render the same page with an error message
+    return res.render("register.ejs", {
+      name,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      error: "Passwords do not match",
+    });
+  }
+  const regex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\S]{8,}$/);
+  const  valid = regex.test(password)
+  console.log(valid);
+  if (!regex.test(password)) {
+    return res.render("register.ejs", {
+      error: "Passwords is not valid",
+      name,
+      email,
+      phoneNumber,
+      dateOfBirth,
+    });
+  }
+
   try {
     const userDetails = await homeService.register(
       name,
@@ -58,11 +82,39 @@ const registerUser = async (req, res) => {
       dateOfBirth
     );
 
-    res.render("profile.ejs", { userDetails });
+    res.render("login.ejs",{
+      message: "Registration succesfull!",
+    });
   } catch (error) {
     console.log("error on controller", error);
     res.render("login.ejs");
   }
 };
 
-module.exports = { home, register, login, registerUser, profile,logout };
+const updateProfile = async (req, res) => {
+  const { name, phoneNumber, dateOfBirth, address } = req.body;
+  try {
+    const userDetails = await homeService.updateProfile(
+      name,
+      phoneNumber,
+      dateOfBirth,
+      address,
+      req.session.token
+    );
+
+    res.redirect("/profile?message=Profile succcesfully updated!");
+  } catch (error) {
+    console.log("error on controller", error);
+    res.render("login.ejs");
+  }
+};
+
+module.exports = {
+  home,
+  register,
+  login,
+  registerUser,
+  profile,
+  logout,
+  updateProfile,
+};
