@@ -109,6 +109,23 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const updateToken = async (req, res) => {
+  const { token } = req.body;
+  console.log("request to update device token",req.body);
+  try {
+    const userDetails = await homeService.updateToken(
+     token,
+      req.session.token
+    );
+
+    return userDetails;
+  } catch (error) {
+    console.log("error on controller", error);
+    res.render("login.ejs");
+  }
+};
+
+
 module.exports = {
   home,
   register,
@@ -117,4 +134,5 @@ module.exports = {
   profile,
   logout,
   updateProfile,
+  updateToken
 };

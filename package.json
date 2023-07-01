@@ -4,6 +4,7 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "@marvnet/express-dynamic-helpers-patch": "^1.0.3",
     "axios": "^1.4.0",
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
@@ -12,9 +13,8 @@
     "express": "^4.18.2",
     "express-router": "^0.0.1",
     "express-session": "^1.17.3",
+    "firebase": "^9.22.2",
     "mongoose": "^6.6.7",
-    "nodemon": "^2.0.20",
-    "@marvnet/express-dynamic-helpers-patch": "^1.0.3"
-
+    "nodemon": "^2.0.20"
   }
 }
