@@ -24,23 +24,6 @@ if ('serviceWorker' in navigator) {
       // Service worker registered
       console.log('Service worker registered');
 
-      // Listen for messages from the service worker
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        const messaging = event.data.messaging;
-        if (messaging) {
-          // Access the messaging object here
-          messaging
-            .requestPermission()
-            .then(() => messaging.getToken())
-            .then((token) => {
-              console.log('Device token:', token);
-              // Send the token to your server or perform further actions
-            })
-            .catch((err) => {
-              console.log('Permission denied', err);
-            });
-        }
-      });
     })
     .catch((error) => {
       // Service worker registration failed
@@ -50,11 +33,6 @@ if ('serviceWorker' in navigator) {
   console.log('Service workers are not supported');
 }
 
-      function loadOtherScript() {
-    var script = document.createElement('script');
-    script.src = './js/fcm.js';
-    document.body.appendChild(script);
-  }
 </script>
     <script>
       

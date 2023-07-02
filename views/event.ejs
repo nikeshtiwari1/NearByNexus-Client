@@ -1,60 +1,7 @@
 <%- include('partials/navbar.ejs') %>
-<script>
-  const firebaseConfig = {
-    // Your Firebase configuration
-    apiKey: "AIzaSyCUHZoJXyaMM-1c4c5GpfC2YCtzSdjJLU8",
-  authDomain: "nearbyneus.firebaseapp.com",
-  projectId: "nearbyneus",
-  storageBucket: "nearbyneus.appspot.com",
-  messagingSenderId: "821092397881",
-  appId: "1:821092397881:web:fdf07bb0bfc297c2656ee8",
-  measurementId: "G-R03DGYGMF5"
-  };
-  firebase.initializeApp(firebaseConfig);
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUHZoJXyaMM-1c4c5GpfC2YCtzSdjJLU8&libraries=places"></script>
+<script src="./js/fcm.js"></script>
 
-  if (Notification.permission === 'default') {
-  Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
-      // Permission granted, you can now subscribe to push notifications
-      // and obtain the device token
-    } else {
-      // Permission denied, handle accordingly
-    }
-  });
-} else if (Notification.permission === 'granted') {
-  // Permission already granted, you can subscribe to push notifications
-  // and obtain the device token
-  const messaging = firebase.messaging();
-  messaging.getToken({ vapidKey: 'BPXa6dx-ui6gxFmUVFlDIuyN9MEkJvdPERdbfCpfnMewn6iMBCzh_CEB2qoPr3FB_sb3Y4vrIN-PVg4xk4kFUZQ' }).then((token) => {
-    console.log('Device token:', token);
-
-fetch("/saveToken", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ token }),
-})
-  .then((response) => {
-    if (response.ok) {
-      console.log("Device token saved successfully");
-    } else {
-      console.error("Failed to save device token");
-    }
-  })
-  .catch((error) => {
-    console.error("Error saving device token:", error);
-  });
-
-  }).catch((error) => {
-    console.error('Error retrieving device token:', error);
-  });
-
-} else {
-  // Permission denied, handle accordingly
-}
-
-</script>
 <!-- Events post -->
 <div class="container bootstrap snippets bootdey mt-3">
   <div class="row d-flex align-items-center justify-content-center">
@@ -142,19 +89,22 @@ fetch("/saveToken", {
 
 <!-- Modal -->
 <div
-  class="modal fade"
+  class="modal fade modal-xl"
   id="postMaodal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="postMaodal"
   aria-hidden="true"
+  
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-body px-5">
-        <form>
+        <form action="/savePost" action="POST">
           <div class="form-outline">
+            <input type="text" id="latitude" name="latitude" readonly>
+            <input type="text" id="longitude" name="longitude" readonly>
             <input
               type="text"
               name="post"
@@ -163,7 +113,8 @@ fetch("/saveToken", {
               placeholder="What's on your mind, neighbour?"
             />
             <div class="text-left mb-3" style="text-align: left">
-              <a class="icon-link text-decoration-none text-success" href="#">
+              <a class="icon-link text-decoration-none text-success" href="#" id="openMapButton" onclick="openMap()"  data-bs-toggle="modal"
+              data-bs-target="#mapModal">
                 <div class="d-flex align-items-center">
                   <i class="bi bi-geo-alt .text-success"></i>
                 </div>
@@ -216,4 +167,35 @@ fetch("/saveToken", {
     </div>
   </div>
 </div>
+
+
+<div
+class="modal fade modal-xl"
+id="mapModal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="mapModal"
+aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body px-5">
+        <div id="map"></div>
+        <button
+            type="submit"
+            class="btn btn-custom text-white rounded"
+            style="float: right"
+            onclick="mapMadalClicked()"
+          >
+            <i class="bi bi-plus-lg text-white fw-bold"></i> Okay
+          </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="./js/maps-service.js"></script>
+
 <%- include('partials/footer.ejs') %>
