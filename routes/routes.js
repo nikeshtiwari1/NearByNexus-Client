@@ -34,4 +34,6 @@ router.post("/saveToken",checkAuth, updateToken);
 router.get("/logout", logout);
 router.get("/event", checkAuth, eventController.event);
 
+router.post("/savePost",checkAuth, eventController.savePost);
+
 module.exports = router;

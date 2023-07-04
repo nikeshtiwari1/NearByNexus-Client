@@ -13,8 +13,7 @@
   if (Notification.permission === 'default') {
   Notification.requestPermission().then((permission) => {
     if (permission === 'granted') {
-      // Permission granted, you can now subscribe to push notifications
-      // and obtain the device token
+      saveToken(firebase);
     } else {
       // Permission denied, handle accordingly
     }
@@ -22,6 +21,13 @@
 } else if (Notification.permission === 'granted') {
   // Permission already granted, you can subscribe to push notifications
   // and obtain the device token
+  saveToken(firebase);
+
+} else {
+  // Permission denied, handle accordingly
+}
+
+function saveToken(firebase){
   const messaging = firebase.messaging();
   messaging.getToken({ vapidKey: 'BPXa6dx-ui6gxFmUVFlDIuyN9MEkJvdPERdbfCpfnMewn6iMBCzh_CEB2qoPr3FB_sb3Y4vrIN-PVg4xk4kFUZQ' }).then((token) => {
     console.log('Device token:', token);
@@ -48,6 +54,53 @@ fetch("/saveToken", {
     console.error('Error retrieving device token:', error);
   });
 
-} else {
-  // Permission denied, handle accordingly
+
+  messaging.onMessage((payload) => {
+    console.log('Received FCM message:', payload);
+    // Show a browser notification with the received message
+    showNotification(payload.notification.title, payload.notification.body);
+  });
+
 }
+
+function showNotification(title, body) {
+  const toastContainer = document.getElementById('toastContainer');
+
+  const toastElement = document.createElement('div');
+  toastElement.classList.add('toast');
+  toastElement.setAttribute('role', 'alert');
+  toastElement.setAttribute('aria-live', 'assertive');
+  toastElement.setAttribute('aria-atomic', 'true');
+
+  toastElement.innerHTML = `
+    <div class="toast-header">
+      <img src="./images/notification.png" class="rounded mr-2" alt="...">
+      <strong class="mr-auto">${title}</strong>
+      <small class = "ms-2">${getTimeString()}</small>
+      <button type="button" class="btn-close justify-content-end ms-9" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      ${body}
+    </div>
+  `;
+
+  // Append the toast element to the toast container
+  toastContainer.appendChild(toastElement);
+
+  // Create a new Bootstrap Toast instance
+  const toast = new bootstrap.Toast(toastElement, {
+    autohide: true,
+    delay: 5000 // Display the toast for 5 seconds
+  });
+
+  // Show the toast
+  toast.show();
+}
+
+function getTimeString() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+

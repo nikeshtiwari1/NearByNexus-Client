@@ -57,5 +57,6 @@ self.addEventListener('notificationclick', (event) => {
 // Additional event listeners and messaging logic can be added here
 
 messaging.onBackgroundMessage((payload) => {
+  console.log(payload);
   // ...
 });

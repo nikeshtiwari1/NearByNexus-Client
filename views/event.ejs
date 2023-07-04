@@ -4,13 +4,31 @@
 
 <!-- Events post -->
 <div class="container bootstrap snippets bootdey mt-3">
+  <div id="toastContainerParent" style="position: relative;">
+    <div aria-live="polite" aria-atomic="true" style="position: absolute; top: 0; right: 0; z-index: 9999;">
+      <div id="toastContainer" class="toast-container"></div>
+    </div>
+  </div>
+
+  
+  <% if (typeof message !== 'undefined') { %>
+    <div class="alert alert-success">
+      <%= message %>
+    </div>
+  <% } %>
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger">
+      <%= error %>
+    </div>
+  <% } %>
   <div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-6">
       <div class="well well-sm event_post">
         <button
           aria-live="off"
           type="button"
-          id="main_content"s
+          id="main_content"
+          s
           class="post-btn post-btn-custom"
           data-bs-toggle="modal"
           data-bs-target="#postMaodal"
@@ -95,26 +113,54 @@
   role="dialog"
   aria-labelledby="postMaodal"
   aria-hidden="true"
-  
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-body px-5">
-        <form action="/savePost" action="POST">
+        <form action="/savePost" method="POST">
           <div class="form-outline">
-            <input type="text" id="latitude" name="latitude" readonly>
-            <input type="text" id="longitude" name="longitude" readonly>
+            <input type="text" id="latitude" name="latitude" readonly hidden />
             <input
               type="text"
-              name="post"
+              id="longitude"
+              name="longitude"
+              readonly
+              hidden
+            />
+            <input
+              type="text"
+              id="postType"
+              value="Incident"
+              name="postType"
+              readonly
+              hidden
+            />
+            <input
+            type="text"
+            id="title"
+            value=""
+            name="title"
+            hidden
+          />
+
+
+            <input
+              type="text"
+              name="postDescription"
               id="post"
               class="form-control my-3 form-rounded form-control-lg h-75"
               placeholder="What's on your mind, neighbour?"
             />
             <div class="text-left mb-3" style="text-align: left">
-              <a class="icon-link text-decoration-none text-success" href="#" id="openMapButton" onclick="openMap()"  data-bs-toggle="modal"
-              data-bs-target="#mapModal">
+              <a
+                class="icon-link text-decoration-none text-success"
+                href="#"
+                id="openMapButton"
+                onclick="openMap()"
+                data-bs-toggle="modal"
+                data-bs-target="#mapModal"
+              >
                 <div class="d-flex align-items-center">
                   <i class="bi bi-geo-alt .text-success"></i>
                 </div>
@@ -168,14 +214,13 @@
   </div>
 </div>
 
-
 <div
-class="modal fade modal-xl"
-id="mapModal"
-tabindex="-1"
-role="dialog"
-aria-labelledby="mapModal"
-aria-hidden="true"
+  class="modal fade modal-xl"
+  id="mapModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mapModal"
+  aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <!-- Modal content-->
@@ -183,18 +228,17 @@ aria-hidden="true"
       <div class="modal-body px-5">
         <div id="map"></div>
         <button
-            type="submit"
-            class="btn btn-custom text-white rounded"
-            style="float: right"
-            onclick="mapMadalClicked()"
-          >
-            <i class="bi bi-plus-lg text-white fw-bold"></i> Okay
-          </button>
+          type="submit"
+          class="btn btn-custom text-white rounded"
+          style="float: right"
+          onclick="mapMadalClicked()"
+        >
+          <i class="bi bi-plus-lg text-white fw-bold"></i> Okay
+        </button>
       </div>
     </div>
   </div>
 </div>
-
 
 <script src="./js/maps-service.js"></script>
 
