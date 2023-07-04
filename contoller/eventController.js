@@ -1,9 +1,8 @@
 const postService = require("../service/postService.js");
 
 const event = async (req, res) => {
-  console.log("Stored id", req.session.userId);
-
-  res.render("event.ejs");
+  const posts = await postService.getAllPost(req.session.token);
+  res.render("event.ejs",{posts:posts});
 };
 
 const savePost = async (req, res) => {
@@ -37,12 +36,15 @@ const savePost = async (req, res) => {
       postType,
       req.session.token
     );
+    const posts = await postService.getAllPost(req.session.token,);
 
     res.render("event.ejs", {
       message: "Post created succesfull!",
+      posts:posts
     });
   } catch (error) {
-    console.log("error on controller", error);
+    const posts = await postService.getAllPost(req.session.token,);
+    console.log("error on controller", {error,posts:posts});
     res.render("event.ejs",{error:"Unable to create post, Please try again later."});
   }
 };

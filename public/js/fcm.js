@@ -1,76 +1,78 @@
-  const firebaseConfig = {
-    // Your Firebase configuration
-    apiKey: "AIzaSyCUHZoJXyaMM-1c4c5GpfC2YCtzSdjJLU8",
+const firebaseConfig = {
+  // Your Firebase configuration
+  apiKey: "AIzaSyCUHZoJXyaMM-1c4c5GpfC2YCtzSdjJLU8",
   authDomain: "nearbyneus.firebaseapp.com",
   projectId: "nearbyneus",
   storageBucket: "nearbyneus.appspot.com",
   messagingSenderId: "821092397881",
   appId: "1:821092397881:web:fdf07bb0bfc297c2656ee8",
-  measurementId: "G-R03DGYGMF5"
-  };
-  firebase.initializeApp(firebaseConfig);
+  measurementId: "G-R03DGYGMF5",
+};
+firebase.initializeApp(firebaseConfig);
 
-  if (Notification.permission === 'default') {
+if (Notification.permission === "default") {
   Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
+    if (permission === "granted") {
       saveToken(firebase);
     } else {
       // Permission denied, handle accordingly
     }
   });
-} else if (Notification.permission === 'granted') {
+} else if (Notification.permission === "granted") {
   // Permission already granted, you can subscribe to push notifications
   // and obtain the device token
   saveToken(firebase);
-
 } else {
   // Permission denied, handle accordingly
 }
 
-function saveToken(firebase){
+function saveToken(firebase) {
   const messaging = firebase.messaging();
-  messaging.getToken({ vapidKey: 'BPXa6dx-ui6gxFmUVFlDIuyN9MEkJvdPERdbfCpfnMewn6iMBCzh_CEB2qoPr3FB_sb3Y4vrIN-PVg4xk4kFUZQ' }).then((token) => {
-    console.log('Device token:', token);
+  messaging
+    .getToken({
+      vapidKey:
+        "BPXa6dx-ui6gxFmUVFlDIuyN9MEkJvdPERdbfCpfnMewn6iMBCzh_CEB2qoPr3FB_sb3Y4vrIN-PVg4xk4kFUZQ",
+    })
+    .then((token) => {
+      console.log("Device token:", token);
 
-fetch("/saveToken", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ token }),
-})
-  .then((response) => {
-    if (response.ok) {
-      console.log("Device token saved successfully");
-    } else {
-      console.error("Failed to save device token");
-    }
-  })
-  .catch((error) => {
-    console.error("Error saving device token:", error);
-  });
-
-  }).catch((error) => {
-    console.error('Error retrieving device token:', error);
-  });
-
+      fetch("/saveToken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Device token saved successfully");
+          } else {
+            console.error("Failed to save device token");
+          }
+        })
+        .catch((error) => {
+          console.error("Error saving device token:", error);
+        });
+    })
+    .catch((error) => {
+      console.error("Error retrieving device token:", error);
+    });
 
   messaging.onMessage((payload) => {
-    console.log('Received FCM message:', payload);
+    console.log("Received FCM message:", payload);
     // Show a browser notification with the received message
     showNotification(payload.notification.title, payload.notification.body);
   });
-
 }
 
 function showNotification(title, body) {
-  const toastContainer = document.getElementById('toastContainer');
+  const toastContainer = document.getElementById("toastContainer");
 
-  const toastElement = document.createElement('div');
-  toastElement.classList.add('toast');
-  toastElement.setAttribute('role', 'alert');
-  toastElement.setAttribute('aria-live', 'assertive');
-  toastElement.setAttribute('aria-atomic', 'true');
+  const toastElement = document.createElement("div");
+  toastElement.classList.add("toast");
+  toastElement.setAttribute("role", "alert");
+  toastElement.setAttribute("aria-live", "assertive");
+  toastElement.setAttribute("aria-atomic", "true");
 
   toastElement.innerHTML = `
     <div class="toast-header">
@@ -90,17 +92,19 @@ function showNotification(title, body) {
   // Create a new Bootstrap Toast instance
   const toast = new bootstrap.Toast(toastElement, {
     autohide: true,
-    delay: 5000 // Display the toast for 5 seconds
+    delay: 3000, // Display the toast for 5 seconds
   });
 
   // Show the toast
   toast.show();
+  setTimeout(function () {
+    window.location.href = "/event";
+  }, 3000);
 }
 
 function getTimeString() {
   const now = new Date();
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const hours = now.getHours().toString().padStart(2, "0");
+  const minutes = now.getMinutes().toString().padStart(2, "0");
   return `${hours}:${minutes}`;
 }
-
