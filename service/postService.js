@@ -45,4 +45,25 @@ const getAllPost = async (token) => {
   }
 };
 
-module.exports = {savePost, getAllPost};
+const getAllPostByLocation = async (longitude,latitude,token) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/post?latitude=${latitude}&longitude=${longitude}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Extract the data from the response
+    const posts = response.data.posts;
+
+    // Pass the data to the view
+    return { posts };
+  } catch (error) {
+    // Handle any error that occurred during the API call
+    console.error("Error:", error);
+    throw new Error("Error:", error);
+  }
+};
+
+
+module.exports = {savePost, getAllPost, getAllPostByLocation};

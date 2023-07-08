@@ -192,3 +192,7 @@ button.post-btn {
     opacity: 0.75;
     text-decoration: none;
   }
+
+  .post-discription{
+    margin-left: 3.5rem!important;
+  }

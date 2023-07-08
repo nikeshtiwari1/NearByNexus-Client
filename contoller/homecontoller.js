@@ -8,6 +8,7 @@ const home = async (req, res) => {
 };
 
 const logout = async (req, res) => {
+  await homeService.logout(req.session.token);
   req.session.destroy((err) => {
     if (err) {
       console.error("Error destroying session:", err);

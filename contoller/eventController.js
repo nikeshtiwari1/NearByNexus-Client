@@ -5,6 +5,13 @@ const event = async (req, res) => {
   res.render("event.ejs",{posts:posts});
 };
 
+const getNearByEvents = async (req, res) => {
+  const latitude = req.query.latitude;
+  const longitude = req.query.longitude;
+  const posts = await postService.getAllPostByLocation(longitude,latitude,req.session.token);
+  res.json({ posts: posts });
+};
+
 const savePost = async (req, res) => {
   const {
     title,
@@ -49,4 +56,4 @@ const savePost = async (req, res) => {
   }
 };
 
-module.exports = { event, savePost };
+module.exports = { event, savePost, getNearByEvents };

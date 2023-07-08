@@ -59,11 +59,19 @@
   </div>
 </div>
 
+<div id="loading-screen" class="d-flex justify-content-center mt-4">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="ms-2">Loading Posts...</p>
+
+</div>
+
 <!-- Events display -->
 <div class="container mt-3 mb-5">
   <div class="row d-flex align-items-center justify-content-center">
-    <div class="col-md-8">
-      <% posts.posts.forEach(function(post)  { %>
+    <div  id="postContainer" class="col-md-8">
+      <!-- <% posts.posts.forEach(function(post)  { %>
       <div class="card card-shadow mt-3">
         <div class="d-flex justify-content-between p-1 px-2">
           <div class="d-flex flex-row align-items-center">
@@ -74,7 +82,7 @@
             </div>
           </div>
         </div>
-        <!-- <img src="images/avatar.png" class="img-fluid" /> -->
+        - <img src="images/avatar.png" class="img-fluid" /> 
         <div class="p-2">
           <p class="text-justify"><%= post.postDescription %></p>
           <hr />
@@ -105,7 +113,7 @@
           </div>
         </div>
       </div>
-      <% }) %>
+      <% }) %>-->
     </div>
   </div>
 </div>
