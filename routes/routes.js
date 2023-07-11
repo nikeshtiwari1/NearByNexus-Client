@@ -13,6 +13,8 @@ const {
 
 const eventController = require("../contoller/eventController.js");
 const passwordController = require("../contoller/passwordController.js");
+const notificationController = require("../contoller/notificationContoller.js");
+
 const router = express.Router();
 router.get("/", checkAuth, home);
 router.get("/login", home);
@@ -36,5 +38,7 @@ router.get("/event", checkAuth, eventController.event);
 router.get("/nearby/events", checkAuth, eventController.getNearByEvents);
 
 router.post("/savePost",checkAuth, eventController.savePost);
+
+router.get("/notifications", checkAuth, notificationController.notifications);
 
 module.exports = router;
