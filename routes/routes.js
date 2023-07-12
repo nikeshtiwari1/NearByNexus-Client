@@ -34,7 +34,9 @@ router.post("/profile",checkAuth, updateProfile);
 router.post("/saveToken",checkAuth, updateToken);
 
 router.get("/logout", logout);
+
 router.get("/event", checkAuth, eventController.event);
+
 router.get("/nearby/events", checkAuth, eventController.getNearByEvents);
 
 router.post("/savePost",checkAuth, eventController.savePost);

@@ -1,7 +1,13 @@
-const notifications = async (req, res) => {
-    console.log(req.session.userId);
-    if (req.session && req.session.userId != null) res.render("notification.ejs");
-    else res.render("login.ejs");
-  };
+const notificationService = require("../service/notificationService.js");
 
-  module.exports = {notifications}
+const notifications = async (req, res) => {
+  if (req.session && req.session.userId != null) {
+    const notifications = await notificationService.getAllNotifications(
+      req.session.token
+    );
+console.log("noti ",{ data : notifications});
+    res.render("notification.ejs", { data : notifications});
+  } else res.render("login.ejs");
+};
+
+module.exports = { notifications };

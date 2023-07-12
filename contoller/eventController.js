@@ -1,8 +1,10 @@
 const postService = require("../service/postService.js");
 
 const event = async (req, res) => {
-  const posts = await postService.getAllPost(req.session.token);
-  res.render("event.ejs",{posts:posts});
+  if (req.session && req.session.userId != null) 
+  res.render("event.ejs");
+  else
+  res.render("login.ejs");
 };
 
 const getNearByEvents = async (req, res) => {

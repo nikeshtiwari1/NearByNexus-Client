@@ -50,7 +50,7 @@ if ('serviceWorker' in navigator) {
 
    <nav class="navbar navbar-expand-sm ml-5 bg-dark navbar-dark">
 </nav> 
-<ul class="navbar-nav ">
+<ul class="navbar-nav mr-1">
 	 <li class="nav-item ml-2">
     <% if( userDetail == null || userDetail == undefined ) {%>
       <a class="nav-link" href="/login"><b>Login</b></a>
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
       <a class="nav-link" href="/register"><b>Register</b></a>
     </li>
     <% } else {%>
-      <li class="nav-item ml-2">
+      <li class="nav-item mr-2">
         <a class="nav-link position-relative" href="/notifications"><b><i class="bi bi-bell fs-4"></i>
           <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger">
             3 
@@ -69,9 +69,9 @@ if ('serviceWorker' in navigator) {
     <li class="nav-item dropdown ms-2 fs-6">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-person fs-4"></i>
-        
+        Profile
       </a>
-      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="max-height: 300px; overflow-y: auto;">
         <li><a class="dropdown-item" href="/profile">Account</a></li>
         <li><a class="dropdown-item" href="/logout">Logout</a></li>
       </ul>
