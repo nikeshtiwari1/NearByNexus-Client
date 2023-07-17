@@ -88,7 +88,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-body px-5">
-        <form action="/savePost" method="POST">
+        <form action="/savePost" method="POST" enctype="multipart/form-data">
           <div class="form-outline">
             <input type="text" id="latitude" name="latitude" readonly hidden />
             <input
@@ -122,6 +122,17 @@
               class="form-control my-3 form-rounded form-control-lg h-75"
               placeholder="What's on your mind, neighbour?"
             />
+        
+            <div class="image-preview-container">
+              <!-- Close icon -->
+              <i class="bi bi-x close-icon" id="closeIcon"></i>              <!-- Image preview element -->
+              <img id="imagePreview" src="#" alt="Image Preview" class="img-thumbnail" style="display: none;margin: auto;" height="300" width = "300">
+            </div>
+            <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
+            <label for="imageInput" class="mb-2" id="imageInputLabel">
+              <i class="bi bi-image text-primary">Add photo or video
+              </i>
+            </label>
             <div class="text-left mb-3" style="text-align: left">
               <a
                 class="icon-link text-decoration-none text-success"

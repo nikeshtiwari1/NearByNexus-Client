@@ -11,10 +11,11 @@ const getNearByEvents = async (req, res) => {
   const latitude = req.query.latitude;
   const longitude = req.query.longitude;
   const posts = await postService.getAllPostByLocation(longitude,latitude,req.session.token);
-  res.json({ posts: posts });
+  res.json({ posts: posts,name:req.session.name });
 };
 
 const savePost = async (req, res) => {
+  console.log("event", req.file);
   const {
     title,
     postDescription,
@@ -25,7 +26,6 @@ const savePost = async (req, res) => {
     postType,
   } = req.body;
   
-  console.log(postDescription);
   if (postDescription == null) {
     // Passwords don't match, render the same page with an error message
     return res.render("event.ejs", {
@@ -43,6 +43,7 @@ const savePost = async (req, res) => {
       startDate,
       endDate,
       postType,
+      req.file,
       req.session.token
     );
     const posts = await postService.getAllPost(req.session.token,);

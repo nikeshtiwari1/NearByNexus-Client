@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <!-- <script src="./js/firebase-messaging-sw.js"></script> -->
+    <script src="./js/navbar.js"></script>
  
 
     <script>
@@ -61,8 +61,8 @@ if ('serviceWorker' in navigator) {
     <% } else {%>
       <li class="nav-item mr-2">
         <a class="nav-link position-relative" href="/notifications"><b><i class="bi bi-bell fs-4"></i>
-          <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger">
-            3 
+          <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger" id="notificationBatch">
+             0
           </span>
           </b></a>
       </li>

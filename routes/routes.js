@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require('multer');
+const upload = multer();
 const { checkAuth } = require("../service/authService.js");
 const {
   home,
@@ -14,6 +16,7 @@ const {
 const eventController = require("../contoller/eventController.js");
 const passwordController = require("../contoller/passwordController.js");
 const notificationController = require("../contoller/notificationContoller.js");
+const commentController = require("../contoller/commentController.js");
 
 const router = express.Router();
 router.get("/", checkAuth, home);
@@ -39,8 +42,12 @@ router.get("/event", checkAuth, eventController.event);
 
 router.get("/nearby/events", checkAuth, eventController.getNearByEvents);
 
-router.post("/savePost",checkAuth, eventController.savePost);
+router.post("/savePost",checkAuth,upload.single('image'), eventController.savePost);
+
+router.post("/post/comments",checkAuth, commentController.postComment);
+
 
 router.get("/notifications", checkAuth, notificationController.notifications);
+router.get("/getNotificationCount", checkAuth, notificationController.getNotificationCount);
 
 module.exports = router;

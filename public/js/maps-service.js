@@ -100,29 +100,45 @@ function loadNearByPosts(longitude, latitude) {
                 </div>
               </div>
             </div>
-            <!-- <img src="images/avatar.png" class="img-fluid" /> -->
-            <div class="p-2">
-              <p class="text-justify post-discription">${post.postDescription}</p>
+            ${post.image ? `
+            <img src="http://localhost:3000/post/images/${post.image}" class="img-fluid" height="435" width="580" tyle="margin: auto; />
+            `:''}
+            <div class="p-1">
+              <span class="text-justify post-discription lead">${post.postDescription}</span>
               <hr />
-              <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-between align-items-center ml-3">
                 <button class="btn btn-primary" type="button">
                   <span> <i class="bi bi-hand-thumbs-up"></i></span> <span>Like</span>
                 </button>
                 <div class="d-flex flex-row muted-color">
-                  <span>1 comment</span>
+                <span class="like-icon" ><i class="bi bi-hand-thumbs-up-fill" style="font-size: 20px; color: blue;"></i>
+                ${
+                  post.likesCount === 0
+                    ? "Be First to like"
+                      : `${post.likesCount}`
+                }</span>
+                  <span class="comment-icon" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
+                    post.commentCount === 0
+                      ? "No comments"
+                      : post.commentCount === 1
+                        ? "1 comment"
+                        : `${post.commentCount} comments`
+                  }</span>
                 </div>
               </div>
               <hr />
-              <div class="comments">
-                <div class="d-flex flex-row mb-2">
+              <div class="comments" id="${post._id}">
+              ${post.lastComment._id ? `
+                <div class="d-flex flex-row mb-2" >
                   <img src="images/avatar.png" width="40" class="rounded-circle" />
                   <div class="d-flex flex-column ms-2">
-                    <span class="fw-bold">Nikesh Tiwari</span>
-                    <small class="comment-text">Congratulations</small>
+                    <span class="fw-bold">${post.lastComment.user.name}</span>
+                    <small class="comment-text">${post.lastComment.comment}</small>
                   </div>
+                  ` : ''}
                 </div>
                 <div class="comment-input">
-                  <input type="text" class="form-control" placeholder="Comment..." />
+                  <input type="text" class="form-control" placeholder="Comment..." onkeyup="onComment('${post._id}','${data.name}',event)"/>
                 </div>
               </div>
             </div>

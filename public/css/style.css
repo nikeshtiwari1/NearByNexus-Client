@@ -210,3 +210,53 @@ button.post-btn {
     background-color: #e5f7f0;
     border-color: #d8f7eb;
 }
+
+.image-preview-container {
+    position: relative;
+    width: 300px; /* Set a fixed width for the container to center the image */
+    display: none;  
+    margin: auto;
+}
+
+  .close-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    display: none; /* Hide the close icon by default */
+  }
+
+  /* Show the close icon when an image is displayed */
+  .image-preview-container img {
+    display: block;
+  }
+
+  .image-preview-container img + .close-icon {
+    display: block;
+  }
+
+  /* Center the image in the container */
+  .image-preview-container img {
+    margin: auto;
+  }
+
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.like-icon{
+    margin-right: 1rem;
+}
+
+.comment-icon{
+    margin-right: .5rem;
+}

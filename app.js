@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const cors = require('cors');
+var multer = require('multer');
+
 require('@marvnet/express-dynamic-helpers-patch')(app);
 const firebaseConfig = require("./config/firebaseConfig.js");
 

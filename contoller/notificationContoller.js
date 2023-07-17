@@ -10,4 +10,14 @@ console.log("noti ",{ data : notifications});
   } else res.render("login.ejs");
 };
 
-module.exports = { notifications };
+const getNotificationCount = async (req, res) => {
+  if (req.session && req.session.userId != null) {
+    const notifications = await notificationService.getNotificationsCount(
+      req.session.token
+    );
+console.log("count fetched succesfully ",{ data : notifications});
+res.json({ data: notifications })
+  } else res.render("login.ejs");
+};
+
+module.exports = { notifications, getNotificationCount };

@@ -27,6 +27,7 @@ const login = async (req, res) => {
 
     session.userId = loginDetail.data.detail.user.id;
     session.token = loginDetail.data.detail.token;
+    session.name = loginDetail.data.detail.user.name;
     console.log("Stored id", req.session.userId);
     res.redirect("/event");
   } catch (error) {
