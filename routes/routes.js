@@ -17,6 +17,7 @@ const eventController = require("../contoller/eventController.js");
 const passwordController = require("../contoller/passwordController.js");
 const notificationController = require("../contoller/notificationContoller.js");
 const commentController = require("../contoller/commentController.js");
+const likeController = require("../contoller/likeController.js");
 
 const router = express.Router();
 router.get("/", checkAuth, home);
@@ -46,6 +47,7 @@ router.post("/savePost",checkAuth,upload.single('image'), eventController.savePo
 
 router.post("/post/comments",checkAuth, commentController.postComment);
 
+router.post("/post/like",checkAuth, likeController.likePost);
 
 router.get("/notifications", checkAuth, notificationController.notifications);
 router.get("/getNotificationCount", checkAuth, notificationController.getNotificationCount);

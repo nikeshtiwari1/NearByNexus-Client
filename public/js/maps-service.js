@@ -88,35 +88,32 @@ function loadNearByPosts(longitude, latitude) {
       if (Array.isArray(posts))
         posts.forEach(function (post) {
           postsHTML += `
-          <div class="card card-shadow mt-3">
+          <div class="card card-shadow mt-3 mb-3">
             <div class="d-flex justify-content-between p-1 px-2">
               <div class="d-flex flex-row align-items-center">
                 <img src="images/avatar.png" width="50" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
-                  <span class="fw-bold fs-5">${post.user.name}</span>
-                  <small>${post.user.address}</small><small>${timeSince(
-            post.createdAt
-          )}</small>
+                  <span class="fw-bold fs-5 post-name">${post.user.name}</span>
+                  <small class="address-time">${post.user.address} • ${timeSince(
+                    post.createdAt
+                  )} •</small>
                 </div>
               </div>
             </div>
             ${post.image ? `
-            <img src="http://localhost:3000/post/images/${post.image}" class="img-fluid" height="435" width="580" tyle="margin: auto; />
+            <img src="http://localhost:3000/post/images/${post.image}" class="img-fluid mb-1" height="435" width="580" tyle="margin: auto; />
             `:''}
             <div class="p-1">
-              <span class="text-justify post-discription lead">${post.postDescription}</span>
-              <hr />
-              <div class="d-flex justify-content-between align-items-center ml-3">
-                <button class="btn btn-primary" type="button">
-                  <span> <i class="bi bi-hand-thumbs-up"></i></span> <span>Like</span>
-                </button>
-                <div class="d-flex flex-row muted-color">
-                <span class="like-icon" ><i class="bi bi-hand-thumbs-up-fill" style="font-size: 20px; color: blue;"></i>
+              <span class="text-justify post-discription lead ">${post.postDescription}</span>
+             
+                <div class=" d-flex flex-row justify-content-end muted-color mt-2">
+                <span class="like-icon" id="likeIcon-${post._id}">
                 ${
                   post.likesCount === 0
-                    ? "Be First to like"
-                      : `${post.likesCount}`
-                }</span>
+                    ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i></button> Be First to like`
+                    : `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart-fill" style="font-size: 20px; color: red;"></i></button> ${post.likesCount}`
+                }
+              </span>
                   <span class="comment-icon" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
                     post.commentCount === 0
                       ? "No comments"
@@ -124,7 +121,7 @@ function loadNearByPosts(longitude, latitude) {
                         ? "1 comment"
                         : `${post.commentCount} comments`
                   }</span>
-                </div>
+               
               </div>
               <hr />
               <div class="comments" id="${post._id}">
@@ -132,13 +129,16 @@ function loadNearByPosts(longitude, latitude) {
                 <div class="d-flex flex-row mb-2" >
                   <img src="images/avatar.png" width="40" class="rounded-circle" />
                   <div class="d-flex flex-column ms-2">
-                    <span class="fw-bold">${post.lastComment.user.name}</span>
+                    <span class="fw-bold comment-name">${post.lastComment.user.name}</span>
                     <small class="comment-text">${post.lastComment.comment}</small>
                   </div>
+                  
                   ` : ''}
                 </div>
-                <div class="comment-input">
-                  <input type="text" class="form-control" placeholder="Comment..." onkeyup="onComment('${post._id}','${data.name}',event)"/>
+                ${post.lastComment._id ? `<hr />`:''}
+                <div class="comment-input d-flex align-items-center">
+                <img src="images/avatar.png" width="40" class="rounded-circle me-2" />
+                  <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}',event)"/>
                 </div>
               </div>
             </div>

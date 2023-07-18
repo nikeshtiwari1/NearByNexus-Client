@@ -50,7 +50,61 @@ document.addEventListener('DOMContentLoaded', function () {
       // Reset the image preview and input
       resetImagePreview();
     });
+
   });
+
+
+    const likeButtons = document.querySelectorAll('.heart-button');
+  
+    function toggleLike(postId) {
+      const likeButton = document.querySelector(`button.heart-button[data-post-id="${postId}"]`);
+      
+      if (likeButton) {
+        const likeIcon = likeButton.querySelector('i');
+  
+        likeIcon.classList.toggle('bi-heart');
+        likeIcon.classList.toggle('bi-heart-fill');
+        likeIcon.style.color = likeIcon.classList.contains('bi-heart-fill') ? 'red' : '';
+  
+        fetch('/post/like', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ postId }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the API response
+            console.log('API response:', data);
+            const likesCount = data.data.data.likesCount;
+            const likeIconElement = document.getElementById(`likeIcon-${postId}`);
+            if (likeIconElement) {
+              likeIconElement.innerHTML = `
+                <span class="like-icon" id="likeIcon-${postId}">
+                  ${
+                    likesCount === 0
+                      ? `<button class="btn heart-button" type="button" data-post-id="${postId}" onclick="toggleLike('${postId}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i></button> Be First to like`
+                      : `<button class="btn heart-button" type="button" data-post-id="${postId}" onclick="toggleLike('${postId}')"><i class="bi bi-heart-fill" style="font-size: 20px; color: red;"></i></button> ${likesCount}`
+                  }
+                </span>
+              `;
+            }
+
+          })
+          .catch((error) => {
+            // Handle API error
+            console.error('API error:', error);
+          });      }
+    }
+  
+    likeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const postId = this.getAttribute('data-post-id');
+        toggleLike(postId);
+      });
+    });
+  
 
   // Function to handle the keyup event for comment inputs
 function onComment(postId,name, event) {
@@ -100,7 +154,7 @@ function onComment(postId,name, event) {
     commentContent.classList.add('d-flex', 'flex-column', 'ms-2');
   
     const userName = document.createElement('span');
-    userName.classList.add('fw-bold');
+    userName.classList.add('fw-bold','comment-name');
     userName.textContent = name; // Replace this with the actual user name
   
     const commentText = document.createElement('small');
@@ -115,9 +169,9 @@ function onComment(postId,name, event) {
   
     // Get the input comment field
     const inputComment = commentSection.querySelector('.comment-input');
-  
-    // Insert the new comment element before the input comment field
+    const hrElement = document.createElement('hr');
     commentSection.insertBefore(commentElement, inputComment);
+    commentSection.insertBefore(hrElement, inputComment);
   }
   
   
