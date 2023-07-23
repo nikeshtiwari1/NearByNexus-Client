@@ -77,16 +77,18 @@ document.addEventListener('DOMContentLoaded', function () {
           .then((data) => {
             // Handle the API response
             console.log('API response:', data);
-            const likesCount = data.data.data.likesCount;
+            const likes = data.data.data.likes;
             const likeIconElement = document.getElementById(`likeIcon-${postId}`);
             if (likeIconElement) {
               likeIconElement.innerHTML = `
                 <span class="like-icon" id="likeIcon-${postId}">
-                  ${
-                    likesCount === 0
-                      ? `<button class="btn heart-button" type="button" data-post-id="${postId}" onclick="toggleLike('${postId}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i></button> Be First to like`
-                      : `<button class="btn heart-button" type="button" data-post-id="${postId}" onclick="toggleLike('${postId}')"><i class="bi bi-heart-fill" style="font-size: 20px; color: red;"></i></button> ${likesCount}`
-                  }
+                ${
+                  likes.likesCount === 0
+                    ? `<button class="btn heart-button" type="button" data-post-id="${postId}" onclick="toggleLike('${postId}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i></button> Be First to like`
+                    : `<button class="btn heart-button" type="button" data-post-id="${postId}" onclick="toggleLike('${postId}')">
+                        <i class="bi ${likes.userHasLiked ? 'bi-heart-fill' : 'bi-heart'}" style="font-size: 20px; color: red;"></i>
+                      </button> ${likes.likesCount}`
+                }
                 </span>
               `;
             }

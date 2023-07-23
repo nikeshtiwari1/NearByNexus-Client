@@ -5,7 +5,9 @@ const notifications = async (req, res) => {
     const notifications = await notificationService.getAllNotifications(
       req.session.token
     );
-console.log("noti ",{ data : notifications});
+    await notificationService.setNotificationViewed(
+      req.session.token
+    );
     res.render("notification.ejs", { data : notifications});
   } else res.render("login.ejs");
 };
@@ -20,4 +22,14 @@ res.json({ data: notifications })
   } else res.render("login.ejs");
 };
 
-module.exports = { notifications, getNotificationCount };
+const notificationsViewed = async (req, res) => {
+  if (req.session && req.session.userId != null) {
+    const notifications = await notificationService.setNotificationViewed(
+      req.session.token
+    );
+console.log("count fetched succesfully ",{ data : notifications});
+res.json({ data: notifications })
+  } else res.render("login.ejs");
+};
+
+module.exports = { notifications, getNotificationCount,notificationsViewed };

@@ -1,0 +1,18 @@
+<%- include('partials/navbar.ejs') %> <br /><br />
+<script src="./js/settings.js"></script>
+
+<div class="card-profile card">
+  <% if (typeof message !== 'undefined') { %>
+  <div class="alert alert-success"><%= message %></div>
+  <% } %>
+  <div class="container">
+    <% if (data.settings) { %>
+      <label class="checkbox-inline">
+        <input id="notificationsToggle" type="checkbox" onChange="handleNotificationsToggle()" <%= data.settings.pushEnabled ? 'checked' : '' %> data-toggle="toggle"> Notifications
+      </label>
+    <% } else { %>
+      <input id="notificationsToggle" type="checkbox" onChange="handleNotificationsToggle()" checked data-toggle="toggle"> Notifications
+      <% } %>  
+  </div>
+</div>
+<%- include('partials/footer.ejs') %>

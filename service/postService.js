@@ -40,9 +40,13 @@ const savePost = async (title,postDescription,latitude,longitude,startDate,endDa
     // Pass the data to the view
     return { data };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+      throw new Error("Error:", error);
+    }
   }
 };
 
@@ -61,8 +65,13 @@ const getAllPost = async (token) => {
     return { posts };
   } catch (error) {
     // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+      throw new Error("Error:", error);
+    }
   }
 };
 
@@ -80,9 +89,14 @@ const getAllPostByLocation = async (longitude,latitude,token) => {
     // Pass the data to the view
     return { posts };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+      throw new Error("Error:", error);
+    }
+   
   }
 };
 

@@ -129,12 +129,29 @@
 </div>
 <%
 function getElapsedTime(createdAt) {
-  const now = new Date();
-  const createdDate = new Date(createdAt);
-  const timeDiff = now - createdDate;
-  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  return `${daysDiff}d`;
-}
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const timeDiff = now - createdDate;
+  
+    const secondsDiff = Math.floor(timeDiff / 1000);
+    if (secondsDiff < 60) {
+      return `${secondsDiff}s`;
+    }
+  
+    const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+    if (minutesDiff < 60) {
+      return `${minutesDiff}m`;
+    }
+  
+    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+    if (hoursDiff < 24) {
+      return `${hoursDiff}h`;
+    }
+  
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    return `${daysDiff}d`;
+  }
+  
 
 function getInitials(name) {
   const words = name.split(' ');

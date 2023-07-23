@@ -136,5 +136,5 @@ module.exports = {
   profile,
   logout,
   updateProfile,
-  updateToken
+  updateToken,
 };

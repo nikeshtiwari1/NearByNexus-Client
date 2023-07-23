@@ -111,8 +111,11 @@ function loadNearByPosts(longitude, latitude) {
                 ${
                   post.likesCount === 0
                     ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i></button> Be First to like`
-                    : `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart-fill" style="font-size: 20px; color: red;"></i></button> ${post.likesCount}`
+                    : `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')">
+                        <i class="bi ${post.userHasLiked ? 'bi-heart-fill' : 'bi-heart'}" style="font-size: 20px; color: red;"></i>
+                      </button> ${post.likesCount}`
                 }
+                
               </span>
                   <span class="comment-icon" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
                     post.commentCount === 0
