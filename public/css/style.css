@@ -325,6 +325,10 @@ button.heart-button:focus {
   color: rgb(249, 249, 249); 
 }
 
+.pointer{
+  cursor: pointer;
+}
+
 @keyframes thumbFill {
   0% {
     transform: scale(1);

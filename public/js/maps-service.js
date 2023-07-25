@@ -101,10 +101,10 @@ function loadNearByPosts(longitude, latitude) {
               </div>
             </div>
             ${post.image ? `
-            <img src="http://localhost:3000/post/images/${post.image}" class="img-fluid mb-1" height="435" width="580" tyle="margin: auto; />
-            `:''}
+            <img src="http://localhost:3000/post/images/${post.image}" class="img-fluid mb-1 pointer" height="435" width="580" style="margin: auto;" onclick="handleNotificationClick('${post._id}')"/>
+          ` : ''}
             <div class="p-1">
-              <span class="text-justify post-discription lead ">${post.postDescription}</span>
+              <span class="text-justify post-discription lead pointer" onclick="handleNotificationClick('${post._id}')">${post.postDescription}</span>
              
                 <div class=" d-flex flex-row justify-content-end muted-color mt-2">
                 <span class="like-icon" id="likeIcon-${post._id}">

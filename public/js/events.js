@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Listen for changes in the image input
+    if(imageInput)
     imageInput.addEventListener('change', function () {
       const file = imageInput.files[0];
       if (file) {
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Listen for the close icon click event
+    if(closeIcon)
     closeIcon.addEventListener('click', function () {
       // Reset the image preview and input
       resetImagePreview();
