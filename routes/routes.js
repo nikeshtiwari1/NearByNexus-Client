@@ -47,6 +47,10 @@ router.get("/nearby/events", checkAuth, eventController.getNearByEvents);
 
 router.post("/savePost",checkAuth,upload.single('image'), eventController.savePost);
 
+router.get("/eventDetail",checkAuth, eventController.getEventDetail);
+
+router.get("/postDetails",checkAuth, eventController.getPostDetail);
+
 router.post("/post/comments",checkAuth, commentController.postComment);
 
 router.post("/post/like",checkAuth, likeController.likePost);

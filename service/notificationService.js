@@ -15,8 +15,13 @@ const getAllNotifications = async (token) => {
       return { notifications };
     } catch (error) {
       // Handle any error that occurred during the API call
-      console.error("Error:", error);
-      throw new Error("Error:", error);
+      if (error.response && error.response.status === 403) {
+        window.location.href = '/logout';
+      } else {
+        // Handle other errors
+        console.error('Error:', error);
+        throw new Error("Error:", error);
+      }
     }
   };
 
@@ -34,8 +39,13 @@ const getAllNotifications = async (token) => {
       return { notifications };
     } catch (error) {
       // Handle any error that occurred during the API call
-      console.error("Error:", error);
-      throw new Error("Error:", error);
+      if (error.response && error.response.status === 403) {
+        window.location.href = '/logout';
+      } else {
+        // Handle other errors
+        console.error('Error:', error);
+        throw new Error("Error:", error);
+      }
     }
   };
 
@@ -53,8 +63,13 @@ const getAllNotifications = async (token) => {
       return { notifications };
     } catch (error) {
       // Handle any error that occurred during the API call
-      console.error("Error:", error);
-      throw new Error("Error:", error);
+      if (error.response && error.response.status === 403) {
+        window.location.href = '/logout';
+      } else {
+        // Handle other errors
+        console.error('Error:', error);
+        throw new Error("Error:", error);
+      }
     }
   };
 

@@ -7,10 +7,23 @@ const event = async (req, res) => {
   res.render("login.ejs");
 };
 
+const getEventDetail = async (req, res) => {
+  if (req.session && req.session.userId != null) 
+  res.render("eventDetail.ejs", {postId :req.query.postId});
+  else
+  res.render("login.ejs");
+};
+
 const getNearByEvents = async (req, res) => {
   const latitude = req.query.latitude;
   const longitude = req.query.longitude;
   const posts = await postService.getAllPostByLocation(longitude,latitude,req.session.token);
+  res.json({ posts: posts,name:req.session.name });
+};
+
+const getPostDetail = async (req, res) => {
+  const postId = req.query.postId;
+  const posts = await postService.getPostDetail(postId,req.session.token);
   res.json({ posts: posts,name:req.session.name });
 };
 
@@ -59,4 +72,4 @@ const savePost = async (req, res) => {
   }
 };
 
-module.exports = { event, savePost, getNearByEvents };
+module.exports = { event, savePost, getNearByEvents, getPostDetail,getEventDetail };

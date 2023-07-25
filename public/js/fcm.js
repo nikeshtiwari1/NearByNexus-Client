@@ -98,7 +98,7 @@ function showNotification(title, body) {
   // Show the toast
   toast.show();
   setTimeout(function () {
-    window.location.href = "/event";
+    window.location.reload();
   }, 3000);
 }
 

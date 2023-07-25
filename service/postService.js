@@ -75,6 +75,32 @@ const getAllPost = async (token) => {
   }
 };
 
+const getPostDetail = async (postId,token) => {
+  try {
+    const response = await axios.get(`${config.baseUrl}/post/details?postId=${postId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Extract the data from the response
+    const posts = response.data.posts;
+
+    // Pass the data to the view
+    return { posts };
+  } catch (error) {
+    // Handle any error that occurred during the API call
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+      throw new Error("Error:", error);
+    }
+  }
+};
+
+
 const getAllPostByLocation = async (longitude,latitude,token) => {
   try {
     const response = await axios.get(`${config.baseUrl}/post?latitude=${latitude}&longitude=${longitude}`, {
@@ -101,4 +127,4 @@ const getAllPostByLocation = async (longitude,latitude,token) => {
 };
 
 
-module.exports = {savePost, getAllPost, getAllPostByLocation};
+module.exports = {savePost, getAllPost, getAllPostByLocation, getPostDetail};
