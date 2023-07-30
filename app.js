@@ -26,13 +26,15 @@ app.use(sessions({
     cookie: { maxAge: oneDay },
     resave: false,
     userId : "",
-    token : ""
+    token : "",
+    role : ""
 
 }));
 app.dynamicHelpers({
   userDetail: function(req, res){
-    if(req.session && req.session.userId)
-      return {userId: req.session.userId};
+    if(req.session && req.session.userId){
+      return {userId: req.session.userId,role: req.session.role ?req.session.role : null};
+  }
   }
 });
 

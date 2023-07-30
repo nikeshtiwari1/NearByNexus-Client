@@ -1,8 +1,11 @@
 const postService = require("../service/postService.js");
-
+const homeService = require("../service/homeService.js");
 const event = async (req, res) => {
-  if (req.session && req.session.userId != null) 
-  res.render("event.ejs");
+  if (req.session && req.session.userId != null) {
+    const profile = await homeService.getProfile(req.session.token);
+    console.log(profile);
+  res.render("event.ejs",{imageUrl:profile.data.imageUrl});
+}
   else
   res.render("login.ejs");
 };
@@ -18,13 +21,14 @@ const getNearByEvents = async (req, res) => {
   const latitude = req.query.latitude;
   const longitude = req.query.longitude;
   const posts = await postService.getAllPostByLocation(longitude,latitude,req.session.token);
-  res.json({ posts: posts,name:req.session.name });
+  res.json({ posts: posts.posts,currentUserImage:posts.currentUserImage,name:req.session.name });
 };
 
 const getPostDetail = async (req, res) => {
   const postId = req.query.postId;
   const posts = await postService.getPostDetail(postId,req.session.token);
-  res.json({ posts: posts,name:req.session.name });
+  console.log("posts", posts);
+  res.json({ posts: posts.posts,currentUserImage:posts.currentUserImage,name:req.session.name });
 };
 
 const savePost = async (req, res) => {

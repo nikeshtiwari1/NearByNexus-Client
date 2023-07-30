@@ -1,4 +1,6 @@
 const axios = require("axios");
+const FormData = require('form-data');
+const config = require('../config/baseConfig.js');
 
 const login = async (email, password) => {
   try {
@@ -130,6 +132,23 @@ const getProfile = async (token) => {
   }
 };
 
+const getImages = async (filename) => {
+  try {
+    const response = await axios.get(`${config.baseUrl}/post/images/${filename}`, {
+    });
+
+    // Extract the data from the response
+    const data = response.data.detail;
+
+    // Pass the data to the view
+    return { data };
+  } catch (error) {
+    // Handle any error that occurred during the API call
+    console.error("Error:", error);
+    throw new Error("Error:", error);
+  }
+};
+
 const logout = async (token) => {
   try {
     const response = await axios.get("http://localhost:3000/logout", {
@@ -150,4 +169,42 @@ const logout = async (token) => {
   }
 };
 
-module.exports = { login, register, getProfile, updateProfile,updateToken,logout };
+const uploadProfileImage = async (image,token) => {
+  try {
+    // Make a POST request to the login endpoint
+    const formData = new FormData();
+
+    // Append the image data from req.file
+    if(image)
+    formData.append('image', image.buffer, {
+      filename: image.originalname,
+      contentType: image.mimetype,
+    });
+    const headers = formData.getHeaders();
+
+    headers['Authorization'] = `Bearer ${token}`;
+
+    const response = await axios.post(`${config.baseUrl}/profile/image`, formData,
+    {
+      headers,
+    }
+    );
+
+    // Extract the data from the response
+    const data = response.data;
+
+    // Pass the data to the view
+    return { data };
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+      throw new Error("Error:", error);
+    }
+  }
+};
+
+
+module.exports = { login, register, getProfile, updateProfile,updateToken,logout, uploadProfileImage,getImages  };

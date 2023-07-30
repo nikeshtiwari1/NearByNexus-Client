@@ -87,11 +87,12 @@ function loadNearByPosts(longitude, latitude) {
       let postsHTML = "";
       if (Array.isArray(posts))
         posts.forEach(function (post) {
+          const imageUrl = post.user.imageUrl ? `http://localhost:3000/post/images/${post.user.imageUrl}` : 'images/avatar.png';
           postsHTML += `
           <div class="card card-shadow mt-3 mb-3">
             <div class="d-flex justify-content-between p-1 px-2">
               <div class="d-flex flex-row align-items-center">
-                <img src="images/avatar.png" width="50" class="rounded-circle" />
+                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
                   <span class="fw-bold fs-5 post-name">${post.user.name}</span>
                   <small class="address-time">${post.user.address} • ${timeSince(
@@ -130,8 +131,8 @@ function loadNearByPosts(longitude, latitude) {
               <div class="comments" id="${post._id}">
               ${post.lastComment._id ? `
                 <div class="d-flex flex-row mb-2" >
-                  <img src="images/avatar.png" width="40" class="rounded-circle" />
-                  <div class="d-flex flex-column ms-2">
+                <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" width="40"  height="40" class="rounded-circle" />
+                <div class="d-flex flex-column ms-2">
                     <span class="fw-bold comment-name">${post.lastComment.user.name}</span>
                     <small class="comment-text">${post.lastComment.comment}</small>
                   </div>
@@ -140,7 +141,7 @@ function loadNearByPosts(longitude, latitude) {
                 </div>
                 ${post.lastComment._id ? `<hr />`:''}
                 <div class="comment-input d-flex align-items-center">
-                <img src="images/avatar.png" width="40" class="rounded-circle me-2" />
+                <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
                   <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}',event)"/>
                 </div>
               </div>

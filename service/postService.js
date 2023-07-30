@@ -84,7 +84,7 @@ const getPostDetail = async (postId,token) => {
     });
 
     // Extract the data from the response
-    const posts = response.data.posts;
+    const posts = response.data;
 
     // Pass the data to the view
     return { posts };
@@ -110,7 +110,7 @@ const getAllPostByLocation = async (longitude,latitude,token) => {
     });
 
     // Extract the data from the response
-    const posts = response.data.posts;
+    const posts = response.data;
 
     // Pass the data to the view
     return { posts };

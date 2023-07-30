@@ -1,0 +1,67 @@
+<%- include('../partials/navbar.ejs') %>
+<script src="./js/admin.js"></script>
+<div class="wrapper-container">
+    <div class="sidebar">
+      <!-- Include the sidebar -->
+      <%- include('../partials/sidebar.ejs') %>
+    </div>
+    <div class="main-content">
+      <!-- Main content goes here -->
+      <main>
+        <div class="container">
+          <!-- Add your main content here -->
+         
+       
+<div class="table-responsive py-3 m-3"> 
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark bg-info">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">User</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+        <th scope="col">Type</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% posts.forEach((post, index) => { %>
+        <tr>
+          <th scope="row"><%= (pageNumber - 1) * pageSize + index + 1 %></th>
+          <td><%= post.user.name %></td>
+          <td><%= post.title ? post.title : 'Incident Posing'%></td>
+          <td><%= post.postDescription%></td>
+          <td><%= post.postType %></td>
+          <td></td>
+        </tr>
+        <% }); %>
+    </tbody>
+  </table>
+  </div>
+  <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+      <% if (pageNumber > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="/adminPosts?page=<%= pageNumber - 1 %>">Previous</a>
+        </li>
+      <% } %>
+  
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === pageNumber ? 'active' : '' %>">
+          <a class="page-link" href="/adminPosts?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+  
+      <% if (pageNumber < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="/adminPosts?page=<%= pageNumber + 1 %>">Next</a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</div>
+</main>
+</div>
+</div>
+<%- include('../partials/footer.ejs') %>

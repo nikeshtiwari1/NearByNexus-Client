@@ -3,7 +3,14 @@ const session = require("express-session");
 
 const home = async (req, res) => {
   console.log(req.session.userId);
-  if (req.session && req.session.userId != null) res.redirect("/event");
+  if (req.session && req.session.userId != null && req.session.role == "User")
+    res.redirect("/event");
+  else if (
+    req.session &&
+    req.session.userId != null &&
+    req.session.role == "Admin"
+  )
+    res.redirect("/admin");
   else res.render("login.ejs");
 };
 
@@ -28,8 +35,13 @@ const login = async (req, res) => {
     session.userId = loginDetail.data.detail.user.id;
     session.token = loginDetail.data.detail.token;
     session.name = loginDetail.data.detail.user.name;
-    console.log("Stored id", req.session.userId);
-    res.redirect("/event");
+    session.role = loginDetail.data.detail.user.role;
+    if (loginDetail.data.detail.user.role == "User")
+      res.redirect("/event");
+    else if (
+      loginDetail.data.detail.user.role == "Admin"
+    )
+      res.redirect("/admin");
   } catch (error) {
     console.log("error on controller", error);
     res.render("login.ejs", { error: "Username or password not valid!" });
@@ -49,6 +61,12 @@ const profile = async (req, res) => {
   res.render("profile.ejs", { profile: profile.data, message: successMessage });
 };
 
+const getImages = async (req, res) => {
+  const profile = await homeService.getProfile(req.session.token);
+
+  res.render("profile.ejs", { profile: profile.data, message: successMessage });
+};
+
 const registerUser = async (req, res) => {
   const { name, email, password, phoneNumber, dateOfBirth, confirmPassword } =
     req.body;
@@ -63,7 +81,7 @@ const registerUser = async (req, res) => {
     });
   }
   const regex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\S]{8,}$/);
-  const  valid = regex.test(password)
+  const valid = regex.test(password);
   console.log(valid);
   if (!regex.test(password)) {
     return res.render("register.ejs", {
@@ -84,7 +102,7 @@ const registerUser = async (req, res) => {
       dateOfBirth
     );
 
-    res.render("login.ejs",{
+    res.render("login.ejs", {
       message: "Registration succesfull!",
     });
   } catch (error) {
@@ -111,14 +129,25 @@ const updateProfile = async (req, res) => {
   }
 };
 
-const updateToken = async (req, res) => {
-  const { token } = req.body;
-  console.log("request to update device token",req.body);
+const uploadProfileImage = async (req, res) => {
   try {
-    const userDetails = await homeService.updateToken(
-     token,
+    const userDetails = await homeService.uploadProfileImage(
+      req.file,
       req.session.token
     );
+
+    res.json({ userDetails });
+  } catch (error) {
+    console.log("error on controller", error);
+    res.render("login.ejs");
+  }
+};
+
+const updateToken = async (req, res) => {
+  const { token } = req.body;
+  console.log("request to update device token", req.body);
+  try {
+    const userDetails = await homeService.updateToken(token, req.session.token);
 
     return userDetails;
   } catch (error) {
@@ -126,7 +155,6 @@ const updateToken = async (req, res) => {
     res.render("login.ejs");
   }
 };
-
 
 module.exports = {
   home,
@@ -137,4 +165,6 @@ module.exports = {
   logout,
   updateProfile,
   updateToken,
+  uploadProfileImage,
+  getImages,
 };

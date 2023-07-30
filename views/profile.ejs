@@ -1,14 +1,23 @@
 <%- include('partials/navbar.ejs') %> <br /><br />
+<script src="./js/profile.js"></script>
 
 <div class="card-profile card">
   <% if (typeof message !== 'undefined') { %>
   <div class="alert alert-success"><%= message %></div>
   <% } %>
-  <img
-    src="images/avatar.png"
-    alt="Profile"
-    style="height: 200px; width: 100%"
-  />
+
+  <div class="avatar-upload">
+    <div class="avatar-edit">
+        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" style="display: none;" />
+        <label for="imageUpload">  <i class="bi bi-pencil"></i>
+        </label>
+    </div>
+    <div class="avatar-preview">
+      <div id="imagePreview" style="background-image: url(<%= profile.imageUrl ? 'http://localhost:3000/post/images/' + profile.imageUrl : 'images/avatar.png' %>)">
+
+        </div>
+    </div>
+</div>
   <h1><%= profile.name %></h1>
   <p class="title"><%= profile.email %></p>
   <p><b>Phone No.: </b>+<%= profile.phoneNumber %></p>

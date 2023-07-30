@@ -2,8 +2,10 @@
 
 // Function to update the notification count in the navigation batch element
 function updateNotificationCount(count) {
+  if(count){
     const notificationBatch = document.getElementById('notificationBatch');
     notificationBatch.textContent = count;
+  }
   }
   
   // Function to fetch the notification count from the server
@@ -17,7 +19,6 @@ function updateNotificationCount(count) {
       const data = await response.json();
       return data.data.notifications.count;
     } catch (error) {
-      console.error(error);
       return 0;
     }
   }
