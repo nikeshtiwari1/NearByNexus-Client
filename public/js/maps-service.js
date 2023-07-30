@@ -133,7 +133,9 @@ function loadNearByPosts(longitude, latitude) {
                 <div class="d-flex flex-row mb-2" >
                 <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" width="40"  height="40" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
-                    <span class="fw-bold comment-name">${post.lastComment.user.name}</span>
+                    <span class="fw-bold comment-name">${post.lastComment.user.name}  <small class="comment-address-time">${
+                      post.lastComment.user.address? post.lastComment.user.address :''
+                    } • ${timeSince(post.lastComment.createdAt)} •</small></span>
                     <small class="comment-text">${post.lastComment.comment}</small>
                   </div>
                   
@@ -142,7 +144,7 @@ function loadNearByPosts(longitude, latitude) {
                 ${post.lastComment._id ? `<hr />`:''}
                 <div class="comment-input d-flex align-items-center">
                 <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
-                  <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}',event)"/>
+                  <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}','${data.posts.currentUserImage}',event)"/>
                 </div>
               </div>
             </div>

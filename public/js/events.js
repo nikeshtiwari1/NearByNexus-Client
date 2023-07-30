@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
 
   // Function to handle the keyup event for comment inputs
-function onComment(postId,name, event) {
+function onComment(postId,name,imageUrl, event) {
     if (event.key === 'Enter') {
       const textBox = event.target;
       const comment = textBox.value;
@@ -131,7 +131,7 @@ function onComment(postId,name, event) {
               console.log('API response:', data);
   
               // Clear the input field after posting the comment
-              populateComment(postId,name,comment);
+              populateComment(postId,name,comment,imageUrl);
               textBox.value = '';
             })
             .catch((error) => {
@@ -144,12 +144,15 @@ function onComment(postId,name, event) {
     }
   }
 
-  function populateComment(postId,name, comment) {
+  function populateComment(postId,name, comment,imageUrl) {
     const commentSection = document.getElementById(postId);
     const commentElement = document.createElement('div');
     commentElement.classList.add('d-flex', 'flex-row', 'mb-2');
   
     const avatarImage = document.createElement('img');
+    if(imageUrl)
+    avatarImage.src = 'http://localhost:3000/post/images/'+imageUrl;
+    else
     avatarImage.src = 'images/avatar.png';
     avatarImage.width = '40';
     avatarImage.classList.add('rounded-circle');
@@ -159,12 +162,16 @@ function onComment(postId,name, event) {
   
     const userName = document.createElement('span');
     userName.classList.add('fw-bold','comment-name');
-    userName.textContent = name; // Replace this with the actual user name
-  
+    userName.textContent = name;
+    const addressTime = document.createElement('small');
+    addressTime.classList.add('comment-address-time');
+    addressTime.textContent = `• ${timeSince(new Date())} •`;
+
     const commentText = document.createElement('small');
     commentText.classList.add('comment-text');
     commentText.textContent = comment;
-  
+    userName.appendChild(addressTime);
+
     commentContent.appendChild(userName);
     commentContent.appendChild(commentText);
   

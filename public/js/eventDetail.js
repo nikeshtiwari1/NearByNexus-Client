@@ -82,7 +82,7 @@ function loadPostDetail(postId) {
                   <img src="${comment.user.imageUrl ? `http://localhost:3000/post/images/${comment.user.imageUrl}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
                   <div class="d-flex flex-column ms-2">
                       <span class="fw-bold comment-name">${comment.user.name}  <small class="comment-address-time">${
-                        comment.user.address
+                        comment.user.address?comment.user.address:''
                       } • ${timeSince(comment.createdAt)} •</small></span>
                      
                       <small class="comment-text">${comment.comment}</small>
@@ -97,7 +97,7 @@ function loadPostDetail(postId) {
                   <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
                   <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${
                       post._id
-                    }','${data.name}',event)"/>
+                    }','${data.name}','${data.posts.currentUserImage}',event)"/>
                   </div>
                 </div>
               </div>
