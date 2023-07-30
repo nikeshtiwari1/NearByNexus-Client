@@ -29,7 +29,7 @@ function loadPostDetail(postId) {
                       post.user.name
                     }</span>
                     <small class="address-time">${
-                      post.user.address
+                      post.user.address ? post.user.address :''
                     } • ${timeSince(post.createdAt)} •</small>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ function loadPostDetail(postId) {
                   <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
                   <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${
                       post._id
-                    }','${data.name}','${data.posts.currentUserImage}',event)"/>
+                    }','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}',event)"/>
                   </div>
                 </div>
               </div>

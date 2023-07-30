@@ -47,4 +47,28 @@ const getPosts = async (req, res) => {
   } else res.render("login.ejs");
 };
 
-module.exports = { admin, getPosts };
+const getComments = async (req, res) => {
+  if (
+    req.session &&
+    req.session.userId != null &&
+    req.session.role == "Admin"
+  ) {
+    const postId = req.query.postId;
+    const pageSize = 10; // Number of items to display per page
+    const pageNumber = parseInt(req.query.page || 1, 10);
+    const comments = await adminService.getCommentList(postId,
+      req.session.token,
+      pageSize,
+      pageNumber
+    );
+    res.render("admin/comments.ejs", {
+      comments: comments.data.comments,
+      pageNumber,
+      pageSize,
+      totalPages: comments.data.totalPages,
+      postId:postId
+    });
+  } else res.render("login.ejs");
+};
+
+module.exports = { admin, getPosts, getComments };

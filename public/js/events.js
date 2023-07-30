@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
 
   // Function to handle the keyup event for comment inputs
-function onComment(postId,name,imageUrl, event) {
+function onComment(postId,name,imageUrl,address, event) {
     if (event.key === 'Enter') {
       const textBox = event.target;
       const comment = textBox.value;
@@ -131,7 +131,7 @@ function onComment(postId,name,imageUrl, event) {
               console.log('API response:', data);
   
               // Clear the input field after posting the comment
-              populateComment(postId,name,comment,imageUrl);
+              populateComment(postId,name,comment,imageUrl,address);
               textBox.value = '';
             })
             .catch((error) => {
@@ -144,7 +144,7 @@ function onComment(postId,name,imageUrl, event) {
     }
   }
 
-  function populateComment(postId,name, comment,imageUrl) {
+  function populateComment(postId,name, comment,imageUrl,address) {
     const commentSection = document.getElementById(postId);
     const commentElement = document.createElement('div');
     commentElement.classList.add('d-flex', 'flex-row', 'mb-2');
@@ -165,7 +165,7 @@ function onComment(postId,name,imageUrl, event) {
     userName.textContent = name;
     const addressTime = document.createElement('small');
     addressTime.classList.add('comment-address-time');
-    addressTime.textContent = `• ${timeSince(new Date())} •`;
+    addressTime.textContent = ` ${address? address : ''} • ${timeSince(new Date())} •`;
 
     const commentText = document.createElement('small');
     commentText.classList.add('comment-text');

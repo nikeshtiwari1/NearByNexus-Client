@@ -18,23 +18,20 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">User</th>
-        <th scope="col">Title</th>
         <th scope="col">Content</th>
-        <th scope="col">Type</th>
+        <th scope="col">Created At</th>
         <th scope="col">Action</th>
 
       </tr>
     </thead>
     <tbody>
-      <% posts.forEach((post, index) => { %>
+      <% comments.forEach((comment, index) => { %>
         <tr>
           <th scope="row"><%= (pageNumber - 1) * pageSize + index + 1 %></th>
-          <td><%= post.user.name %></td>
-          <td><%= post.title ? post.title : 'Incident Posing'%></td>
-          <td><%= post.postDescription%></td>
-          <td><%= post.postType %></td>
-          <td><a type="button" class="btn btn-success" href="/adminComments?postId=<%=post._id%>">Detail</a>
-          </td>
+          <td><%= comment.user.name %></td>
+          <td><%= comment.comment%></td>
+          <td><%= comment.createdAt %></td>
+          <td></td>
         </tr>
         <% }); %>
     </tbody>
@@ -44,19 +41,19 @@
     <ul class="pagination">
       <% if (pageNumber > 1) { %>
         <li class="page-item">
-          <a class="page-link" href="/adminPosts?page=<%= pageNumber - 1 %>">Previous</a>
+          <a class="page-link" href="/adminComments?postId=<%= postId %>&page=<%= pageNumber - 1 %>">Previous</a>
         </li>
       <% } %>
   
       <% for (let i = 1; i <= totalPages; i++) { %>
         <li class="page-item <%= i === pageNumber ? 'active' : '' %>">
-          <a class="page-link" href="/adminPosts?page=<%= i %>"><%= i %></a>
+          <a class="page-link" href="/adminComments?postId=<%= postId %>&page=<%= i %>"><%= i %></a>
         </li>
       <% } %>
   
       <% if (pageNumber < totalPages) { %>
         <li class="page-item">
-          <a class="page-link" href="/adminPosts?page=<%= pageNumber + 1 %>">Next</a>
+          <a class="page-link" href="/adminComments?postId=<%= postId %>&page=<%= pageNumber + 1 %>">Next</a>
         </li>
       <% } %>
     </ul>

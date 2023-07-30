@@ -72,6 +72,7 @@ router.get("/notificationsViewed", checkAuth, notificationController.notificatio
 
 router.get("/admin", checkAuth, adminController.admin);
 router.get("/adminPosts", checkAuth, adminController.getPosts);
+router.get("/adminComments", checkAuth, adminController.getComments);
 
 
 module.exports = router;

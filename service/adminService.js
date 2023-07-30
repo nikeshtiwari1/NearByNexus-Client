@@ -42,5 +42,25 @@ const getUserList = async (token, pageSize,pageNumber) => {
     }
   };
 
+  const getCommentList = async (postId,token, pageSize,pageNumber) => {
+    try {
+      const response = await axios.get(`${config.baseUrl}/comments/list?postId=${postId}&pageSize=${pageSize}&pageNumber=${pageNumber}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      // Extract the data from the response
+      const data = response.data;
+  
+      // Pass the data to the view
+      return { data };
+    } catch (error) {
+      // Handle any error that occurred during the API call
+      console.error("Error:", error);
+      throw new Error("Error:", error);
+    }
+  };
 
-  module.exports = {getUserList, getPostList};
+
+  module.exports = {getUserList, getPostList, getCommentList};

@@ -95,7 +95,7 @@ function loadNearByPosts(longitude, latitude) {
                 <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
                   <span class="fw-bold fs-5 post-name">${post.user.name}</span>
-                  <small class="address-time">${post.user.address} • ${timeSince(
+                  <small class="address-time">${post.user.address ? post.user.address :''} • ${timeSince(
                     post.createdAt
                   )} •</small>
                 </div>
@@ -144,7 +144,7 @@ function loadNearByPosts(longitude, latitude) {
                 ${post.lastComment._id ? `<hr />`:''}
                 <div class="comment-input d-flex align-items-center">
                 <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
-                  <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}','${data.posts.currentUserImage}',event)"/>
+                  <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}',event)"/>
                 </div>
               </div>
             </div>
