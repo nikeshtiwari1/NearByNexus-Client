@@ -16,9 +16,10 @@
       </div>
     <% } %>
     <br>
-    <label for="demo" class="col-lg-12">Email</label>
+    <label for="email" class="col-lg-12">Email</label>
     <div class="input-group col-lg-12 mb-3">
       <input
+        id="email"
         type="email"
         class="form-control"
         placeholder="Email"
@@ -27,9 +28,10 @@
       />
     </div>
 
-    <label for="demo" class="col-lg-12">Password</label>
+    <label for="password" class="col-lg-12">Password</label>
     <div class="input-group col-lg-12 mb-3">
       <input
+        id="password"
         type="password"
         class="form-control"
         placeholder="Password"
@@ -38,22 +40,22 @@
       />
     </div>
 
-    <div class="col-lg-12">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
       <hr />
       <input
         type="submit"
-        class="btn btn-primary btn-lg col-lg-12"
+        class="btn btn-primary btn-lg col-12"
         value="Login"
         name="buyer_login"
       />
     </form>
       <!-- <p style="color:black;"><a href="user.php" class="text-dark text-right">Forgot Password?</a></p> -->
     </div>
-    <div class="col-lg-12">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
       <hr />
       
-      <p><button type="button" class="btn btn-sm btn-danger col-lg-12" data-bs-toggle="modal" data-bs-target="#myModal">Forgot Password</button></p>
-
+      <p><button type="button" class="btn btn-sm btn-danger col-12" data-bs-toggle="modal" data-bs-target="#myModal">Forgot Password</button></p>
+</div>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -69,6 +71,7 @@
             <p class="py-2">
                 Enter your email and you'll get an email with instructions to reset your password.
             </p>
+            <label class="visually-hidden" for="typeEmail">Email</label>
             <div class="form-outline">
                 <input type="email" name="email" id="typeEmail" class="form-control my-3" placeholder="Enter email" />
             </div>
@@ -88,7 +91,7 @@
     <br />
   </div>
 
-  <div class="container text-right col-lg-4 mt-2">
+  <div class="container text-right col-lg-4 mt-2 text-center">
     <h6>New Member? <a href="/register">Register</a> here.</h6>
   </div>
   <br />

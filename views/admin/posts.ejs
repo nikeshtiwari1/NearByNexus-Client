@@ -34,6 +34,11 @@
           <td><%= post.postDescription%></td>
           <td><%= post.postType %></td>
           <td><a type="button" class="btn btn-success" href="/adminComments?postId=<%=post._id%>">Detail</a>
+            <% if (post.isBlocked) { %>
+              <button type="button" class="btn btn-success" onclick="unlockPost('<%= post._id %>')">UnBlock</button>
+            <% } else { %>
+              <button type="button" class="btn btn-danger" onclick="lockPost('<%= post._id %>')">Block</button>
+            <% } %>
           </td>
         </tr>
         <% }); %>

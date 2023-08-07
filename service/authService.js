@@ -6,4 +6,13 @@ const checkAuth = (req, res, next) => {
     res.redirect("/login");
   }
 };
-module.exports = { checkAuth };
+
+const checkAdminAuth = (req, res, next) => {
+  console.log("auth check");
+  if (req.session.userId && req.session.role == 'Admin') {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+module.exports = { checkAuth, checkAdminAuth };

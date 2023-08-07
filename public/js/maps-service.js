@@ -87,34 +87,36 @@ function loadNearByPosts(longitude, latitude) {
       let postsHTML = "";
       if (Array.isArray(posts))
         posts.forEach(function (post) {
-          const imageUrl = post.user.imageUrl ? `http://localhost:3000/post/images/${post.user.imageUrl}` : 'images/avatar.png';
+          const imageUrl = post.user.imageUrl ? `http://localhost:3000/post/images/${post.user.imageUrl}` : '/images/avatar.png';
           postsHTML += `
           <div class="card card-shadow mt-3 mb-3">
             <div class="d-flex justify-content-between p-1 px-2">
               <div class="d-flex flex-row align-items-center">
-                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" />
+                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" alt="${post.user.name} profile image"/>
                 <div class="d-flex flex-column ms-2">
-                  <span class="fw-bold fs-5 post-name">${post.user.name}</span>
-                  <small class="address-time">${post.user.address ? post.user.address :''} • ${timeSince(
+                  <span class="fw-bold fs-5 post-name mb-1  mb-md-0">${post.user.name}</span>
+                  <small class="address-time  d-md-block">${post.user.address ? post.user.address :''} • ${timeSince(
                     post.createdAt
                   )} •</small>
                 </div>
               </div>
             </div>
             ${post.image ? `
-            <img src="http://localhost:3000/post/images/${post.image}" class="img-fluid mb-1 pointer" height="435" width="580" style="margin: auto;" onclick="handleNotificationClick('${post._id}')"/>
+            <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post" class="img-fluid mb-1 pointer" height="435" width="580" style="margin: auto;" aria-label="Click to view post details"  tabindex="0" onclick="handleNotificationClick('${post._id}')"/>
           ` : ''}
             <div class="p-1">
-              <span class="text-justify post-discription lead pointer" onclick="handleNotificationClick('${post._id}')">${post.postDescription}</span>
+              <span   aria-label="Click to view post details"  tabindex="0"
+               class="text-justify post-discription lead pointer" onclick="handleNotificationClick('${post._id}')">${post.postDescription}</span>
              
                 <div class=" d-flex flex-row justify-content-end muted-color mt-2">
                 <span class="like-icon" id="likeIcon-${post._id}">
                 ${
                   post.likesCount === 0
-                    ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i></button> Be First to like`
+                    ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i>  <span class="visually-hidden">Like</span>
+                    </button> Be First to like`
                     : `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')">
                         <i class="bi ${post.userHasLiked ? 'bi-heart-fill' : 'bi-heart'}" style="font-size: 20px; color: red;"></i>
-                      </button> ${post.likesCount}`
+                        <span class="visually-hidden">Like</span> </button> ${post.likesCount}`
                 }
                 
               </span>
@@ -131,7 +133,7 @@ function loadNearByPosts(longitude, latitude) {
               <div class="comments" id="${post._id}">
               ${post.lastComment._id ? `
                 <div class="d-flex flex-row mb-2" >
-                <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" width="40"  height="40" class="rounded-circle" />
+                <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" alt ="${post.lastComment.user} comment profile image"width="40"  height="40" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
                     <span class="fw-bold comment-name">${post.lastComment.user.name}  <small class="comment-address-time">${
                       post.lastComment.user.address? post.lastComment.user.address :''
@@ -143,8 +145,9 @@ function loadNearByPosts(longitude, latitude) {
                 </div>
                 ${post.lastComment._id ? `<hr />`:''}
                 <div class="comment-input d-flex align-items-center">
-                <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" width="40" height="40" class="rounded-circle" />
-                  <input type="text" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}',event)"/>
+                <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" alt='${data.name} prifile image' width="40" height="40" class="rounded-circle" />
+                <label for="comment-${post._id}" class="visually-hidden">Password</label>
+                <input type="text" id="comment-${post._id}" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}',event)"/>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require('multer');
 const upload = multer();
-const { checkAuth } = require("../service/authService.js");
+const { checkAuth,checkAdminAuth } = require("../service/authService.js");
 const {
   home,
   register,
@@ -70,9 +70,12 @@ router.get("/getNotificationCount", checkAuth, notificationController.getNotific
 router.get("/notificationsViewed", checkAuth, notificationController.notificationsViewed);
 
 
-router.get("/admin", checkAuth, adminController.admin);
-router.get("/adminPosts", checkAuth, adminController.getPosts);
-router.get("/adminComments", checkAuth, adminController.getComments);
+router.get("/admin", checkAdminAuth, adminController.admin);
+router.get("/adminPosts", checkAdminAuth, adminController.getPosts);
+router.get("/adminComments", checkAdminAuth, adminController.getComments);
+router.post("/updateStatus", checkAdminAuth, adminController.updateStatus);
+router.post("/updatePostStatus", checkAdminAuth, adminController.updatePostStatus);
+router.post("/updateCommentStatus", checkAdminAuth, adminController.updateCommentStatus);
 
 
 module.exports = router;

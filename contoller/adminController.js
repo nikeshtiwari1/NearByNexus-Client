@@ -71,4 +71,47 @@ const getComments = async (req, res) => {
   } else res.render("login.ejs");
 };
 
-module.exports = { admin, getPosts, getComments };
+const updateStatus = async (req, res) => {
+  if (
+    req.session &&
+    req.session.userId != null &&
+    req.session.role == "Admin"
+  ) {
+    const {userId, isLocked}= req.body;
+    console.log("USER DETAILS",{userId,isLocked});
+    const data = await adminService.updateStatus(userId,isLocked,
+      req.session.token
+    );
+    res.json({ data});
+  } else res.render("login.ejs");
+};
+
+const updatePostStatus = async (req, res) => {
+  if (
+    req.session &&
+    req.session.userId != null &&
+    req.session.role == "Admin"
+  ) {
+    const {postId, isBlocked}= req.body;
+    const data = await adminService.updatePostStatus(postId,isBlocked,
+      req.session.token
+    );
+    res.json({ data});
+  } else res.render("login.ejs");
+};
+
+const updateCommentStatus = async (req, res) => {
+  if (
+    req.session &&
+    req.session.userId != null &&
+    req.session.role == "Admin"
+  ) {
+    const {commentId, isBlocked}= req.body;
+    const data = await adminService.updateCommentStatus(commentId,isBlocked,
+      req.session.token
+    );
+    res.json({ data});
+  } else res.render("login.ejs");
+};
+
+module.exports = { admin, getPosts, getComments,updateStatus, updatePostStatus, updateCommentStatus };

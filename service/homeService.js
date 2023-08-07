@@ -17,7 +17,7 @@ const login = async (email, password) => {
     return { data };
   } catch (error) {
     // Handle any error that occurred during the API call
-    console.error("Error:", error);
+    console.error("Error: in service", error);
     throw new Error("Error:", error);
   }
 };
@@ -163,9 +163,13 @@ const logout = async (token) => {
     // Pass the data to the view
     return { data };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      return null;
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+      throw new Error("Error:", error);
+    }
   }
 };
 

@@ -31,7 +31,13 @@
           <td><%= comment.user.name %></td>
           <td><%= comment.comment%></td>
           <td><%= comment.createdAt %></td>
-          <td></td>
+          <td>
+            <% if (comment.isBlocked) { %>
+              <button type="button" class="btn btn-success" onclick="unlockComment('<%= comment._id %>')">UnBlock</button>
+            <% } else { %>
+              <button type="button" class="btn btn-danger" onclick="lockComment('<%= comment._id %>')">Block</button>
+            <% } %>
+          </td>
         </tr>
         <% }); %>
     </tbody>

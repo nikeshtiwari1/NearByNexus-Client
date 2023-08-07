@@ -36,8 +36,8 @@
           <td><%= user.dateOfBirth %></td>
           <td><%= user.address %></td>
           <td>
-            <% if (user.locked) { %>
-              <button type="button" class="btn btn-success" onclick="unlockUser('<%= user._id %>')">Unlock</button>
+            <% if (user.isLocked) { %>
+              <button type="button" class="btn btn-success" onclick="unlockUser('<%= user._id %>')">UnLock</button>
             <% } else { %>
               <button type="button" class="btn btn-danger" onclick="lockUser('<%= user._id %>')">Lock</button>
             <% } %>
