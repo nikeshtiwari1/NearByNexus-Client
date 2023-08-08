@@ -10,6 +10,10 @@ body {
   display: flex;
 }
 
+.box-body {
+  max-height: 60vh;
+}
+
 .sidebar {
   width: 200px;
   background-color: rgba(25, 135, 84) !important;
