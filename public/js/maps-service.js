@@ -83,7 +83,6 @@ function loadNearByPosts(longitude, latitude) {
       // Process the received posts and update the UI
       const posts = data.posts.posts;
       // Update the UI with the retrieved posts
-      console.log(posts);
       let postsHTML = "";
       if (Array.isArray(posts))
         posts.forEach(function (post) {
@@ -112,7 +111,7 @@ function loadNearByPosts(longitude, latitude) {
                 <span class="like-icon" id="likeIcon-${post._id}">
                 ${
                   post.likesCount === 0
-                    ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px; color: red;"></i>  <span class="visually-hidden">Like</span>
+                    ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px ; font-weight: bold; color: red;"></i>  <span class="visually-hidden">Like</span>
                     </button> Be First to like`
                     : `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')">
                         <i class="bi ${post.userHasLiked ? 'bi-heart-fill' : 'bi-heart'}" style="font-size: 20px; color: red;"></i>
@@ -120,7 +119,7 @@ function loadNearByPosts(longitude, latitude) {
                 }
                 
               </span>
-                  <span class="comment-icon" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
+                  <span class="comment-icon" onclick="moveFocusToCommentInput('${post._id}')"><i class="bi bi-chat font-weight-bold" style="font-size: 20px;"></i>  ${
                     post.commentCount === 0
                       ? "No comments"
                       : post.commentCount === 1
@@ -133,7 +132,7 @@ function loadNearByPosts(longitude, latitude) {
               <div class="comments" id="${post._id}">
               ${post.lastComment._id ? `
                 <div class="d-flex flex-row mb-2" >
-                <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" alt ="${post.lastComment.user} comment profile image"width="40"  height="40" class="rounded-circle" />
+                <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" alt ="${post.lastComment.user} comment profile image" width="40"  height="40" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
                     <span class="fw-bold comment-name">${post.lastComment.user.name}  <small class="comment-address-time">${
                       post.lastComment.user.address? post.lastComment.user.address :''
@@ -144,11 +143,18 @@ function loadNearByPosts(longitude, latitude) {
                   ` : ''}
                 </div>
                 ${post.lastComment._id ? `<hr />`:''}
+                
                 <div class="comment-input d-flex align-items-center">
-                <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" alt='${data.name} prifile image' width="40" height="40" class="rounded-circle" />
-                <label for="comment-${post._id}" class="visually-hidden">Password</label>
-                <input type="text" id="comment-${post._id}" class="form-control comment-form" placeholder="Add a comment..." onkeyup="onComment('${post._id}','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}',event)"/>
+                <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" alt='${data.name} profile image' width="40" height="40" class="rounded-circle" />
+                <div class="input-group">
+                    <label for="comment-${post._id}" class="visually-hidden">Comment</label>
+                    <input type="text" id="comment-${post._id}" class="form-control comment-form" placeholder="Add a comment..." onfocus="onCommentFocus(event, '${post._id}','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}')" onBlur="onCommentBlur(event, '${post._id}')" oninput="checkInput(this, 'commentButton-${post._id}')"  onkeypress="handleKeyPress(event, '${post._id}', '${data.name}', '${data.posts.currentUserImage}', '${data.posts.currentUserAddress}')"/>
+            
                 </div>
+                <div class="comment-button-container" id="commentButtonContainer-${post._id}" style="display: none;"></div>
+
+            </div>
+
               </div>
             </div>
           </div>

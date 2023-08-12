@@ -322,14 +322,30 @@ button.post-btn {
 
 .like-icon {
   margin-right: 1rem;
+  font-weight: 600;
 }
 
 .comment-icon {
   margin-right: .5rem;
+  font-weight: 600;
+  cursor: pointer;
+
+}
+
+.bi::before, [class^="bi-"]::before, [class*=" bi-"]::before {
+  font-weight: bold !important;
+}
+
+.bi.bi-chat {
+  font-weight: bold !important;
 }
 
 .heart-button i.bi-heart-fill {
   color: red;
+}
+
+.input-group {
+  width: 100%;
 }
 
 .comment-input {
@@ -339,7 +355,7 @@ button.post-btn {
 .comment-form {
   background-color: #e5e5e5;
   padding: 10px 12px 6px 20px;
-  border-radius: 20px;
+  border-radius: 20px !important;
 }
 
 .address-time {
@@ -478,6 +494,65 @@ button.heart-button:focus {
   font-family: arial;
 }
 
+.comment-input {
+  position: relative;
+}
+
+.comment-input .input-group {
+  position: relative;
+}
+
+.comment-input .input-group .btn {
+  position: absolute;
+  bottom: -35px;
+  right: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.comment-button-container {
+  margin-left: auto;
+  float: right;
+  margin-right: 1.5rem;
+  padding: 6px 16px;
+  border-width: 0px;
+  border-radius: 32px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.comment-button-container.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.comment-button {
+  padding: 9px 16px;
+  min-height: 36px;
+  border-radius: 32px;
+  border-width: 0px;
+  background-color: #1abc9c;
+  outline: none !important;
+  box-shadow: none !important;
+  border: none; 
+  transition: background-color 0.3s; 
+  cursor: pointer;
+}
+.comment-button:disabled {
+  background-color: #149b80; 
+  cursor: not-allowed;
+  opacity: .5;
+}
+.comment-button:hover {
+  background-color: #149b80; 
+}
+/* .comment-input .comment-form:focus + .comment-button,
+.comment-input .comment-form.has-text + .comment-button {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+} */
 @keyframes thumbFill {
   0% {
     transform: scale(1);
@@ -500,6 +575,7 @@ button.heart-button:focus {
   .p-2 {
     padding: 5px !important;
   }
+
   .text-truncate {
     font-size: 14px;
   }
@@ -510,41 +586,50 @@ button.heart-button:focus {
 }
 
 @media (max-width: 576px) {
-.address-time{
-  font-size: 11px;
-}
-  
+  .address-time {
+    font-size: 11px;
+  }
+
   .text-truncate {
     font-size: 11px;
   }
+
   .small {
     font-size: 11px;
   }
+
   .d-flex {
-    display: block!important;
-}
-.rounded-circle{
-  display: none;
-}
-.address-time{
-  display: block;
-}
-.post-discription {
-  font-size: 1rem !important;
-  margin-left: 1.5rem !important;
-}
-.like-icon{
-  font-size: .6rem !important;
-  
-}
-.comment-address-time{
-  display: block;
-  font-size: 11px;
-}
-.comment-icon {
-  font-size: .6rem !important;
-}
-.comment-text {
-  margin-left: 1rem !important;
-}
+    display: block !important;
+  }
+
+  .rounded-circle {
+    display: none;
+  }
+
+  .address-time {
+    display: block;
+  }
+
+  .post-discription {
+    font-size: 1rem !important;
+    margin-left: 1.5rem !important;
+  }
+
+  .like-icon {
+    font-size: .6rem !important;
+
+  }
+
+  .comment-address-time {
+    display: block;
+    font-size: 11px;
+  }
+
+  .comment-icon {
+    font-size: .6rem !important;
+  }
+
+  .comment-text {
+    margin-left: 1rem !important;
+  }
 }

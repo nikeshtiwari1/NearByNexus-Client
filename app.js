@@ -52,7 +52,7 @@ app.use("/", router);
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-
-app.listen(3500, () => {
+const port = process.env.PORT || 3500;
+app.listen(port, () => {
   console.log("App us listining to port 3500");
 });

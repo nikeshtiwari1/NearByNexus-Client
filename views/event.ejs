@@ -89,7 +89,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-body px-5">
-        <form action="/savePost" method="POST" enctype="multipart/form-data">
+        <form id="postForm" action="/savePost" method="POST" enctype="multipart/form-data">
           <div class="form-outline">
             <input type="text" id="latitude" name="latitude" readonly hidden />
             <input
@@ -116,13 +116,17 @@
           />
 
 
-            <input
-              type="text"
-              name="postDescription"
-              id="post"
-              class="form-control my-3 form-rounded form-control-lg h-75"
-              placeholder="What's on your mind, neighbour?"
-            />
+          <input
+          type="text"
+          name="postDescription"
+          id="postDescription"
+          class="form-control my-3 form-rounded form-control-lg h-75"
+          placeholder="What's on your mind, neighbour?"
+        
+      />
+      <div class="invalid-feedback" id="postDescriptionError">
+          Please enter a valid post description.
+      </div>
         
             <div class="image-preview-container">
               <!-- Close icon -->
@@ -223,6 +227,8 @@
 </div>
 
 <script src="./js/maps-service.js"></script>
+<script src="./js/eventValidation.js"></script>
+
 <% function timeSince(date) { %>
   <% const seconds = Math.floor((new Date() - new Date(date)) / 1000); %>
   <% let interval = Math.floor(seconds / 31536000); %>

@@ -3,8 +3,8 @@ const homeService = require("../service/homeService.js");
 const event = async (req, res) => {
   if (req.session && req.session.userId != null && req.session.role == "User") {
     const profile = await homeService.getProfile(req.session.token);
-    console.log(profile);
-    res.render("event.ejs", { imageUrl: profile.data.imageUrl });
+    if (profile) res.render("event.ejs", { imageUrl: profile.data.imageUrl });
+    else res.render("login.ejs");
   } else res.render("login.ejs");
 };
 
@@ -53,12 +53,12 @@ const savePost = async (req, res) => {
     endDate,
     postType,
   } = req.body;
-
+  const profile = await homeService.getProfile(req.session.token);
   if (postDescription == null) {
-    // Passwords don't match, render the same page with an error message
     return res.render("event.ejs", {
       postDescription,
       error: "Please enter the description.",
+      imageUrl: profile.data.imageUrl,
     });
   }
 
@@ -74,17 +74,18 @@ const savePost = async (req, res) => {
       req.file,
       req.session.token
     );
-    const posts = await postService.getAllPost(req.session.token);
+    // const posts = await postService.getAllPost(req.session.token);
 
     res.render("event.ejs", {
       message: "Post created succesfull!",
-      posts: posts,
+      imageUrl: profile.data.imageUrl,
     });
   } catch (error) {
     const posts = await postService.getAllPost(req.session.token);
     console.log("error on controller", { error, posts: posts });
     res.render("event.ejs", {
       error: "Unable to create post, Please try again later.",
+      imageUrl: profile.data.imageUrl,
     });
   }
 };
