@@ -9,7 +9,7 @@ window.onload = function () {
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
-    (position) => {
+    async (position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
       locLatitude = latitude;
@@ -17,6 +17,11 @@ if (navigator.geolocation) {
       loadNearByPosts(longitude, latitude);
       document.getElementById("latitude").value = latitude;
       document.getElementById("longitude").value = longitude;
+      document.getElementById("eventlatitude").value = latitude;
+      document.getElementById("eventlongitude").value = longitude;
+
+      getAddress(longitude, latitude);
+
       const map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: locLatitude, lng: locLongitude },
         zoom: 12,
@@ -36,6 +41,10 @@ if (navigator.geolocation) {
         );
         document.getElementById("latitude").value = markerPosition.lat();
         document.getElementById("longitude").value = markerPosition.lng();
+        document.getElementById("eventlatitude").value = markerPosition.lat();
+        document.getElementById("eventlongitude").value = markerPosition.lng();
+        getAddress(markerPosition.lng(), markerPosition.lat());
+
         // You can use the marker position for further processing or storing the coordinates
       });
     },
@@ -52,26 +61,83 @@ const openMapButton = document.getElementById("openMapButton");
 const closeMapButton = document.getElementById("closeMapButton");
 const postModal = document.getElementById("postMaodal");
 const mapModal = document.getElementById("mapModal");
+const eventModal = document.getElementById("eventFormModal");
 
 // Show the map modal initially
 const mapModalInstance = new bootstrap.Modal(mapModal);
+const eventModalInstance = new bootstrap.Modal(eventModal);
+const postModalInstance = new bootstrap.Modal(postModal);
 
 // Listen for the hidden.bs.modal event on the map modal
 mapModal.addEventListener("hidden.bs.modal", function () {
-  // When the map modal is hidden, show the post modal
-  postModalChange();
+  // Determine which modal to show based on the data-modal-source attribute
+  const source = openMapButton.getAttribute("data-modal-source");
+  if (source === "postModal") {
+    postModalInstance.show();
+  } else if (source === "eventFormModal") {
+    eventModalInstance.show();
+  }
 });
+
 function postModalChange() {
-  const postModalInstance = new bootstrap.Modal(postModal);
   postModalInstance.show();
 }
 function mapMadalClicked() {
   mapModalInstance.hide();
-  postModalChange();
+  const source = openMapButton.getAttribute("data-modal-source");
+  if (source === "postModal") {
+    postModalInstance.show();
+  } else if (source === "eventFormModal") {
+    eventModalInstance.show();
+  }
 }
 // Function to open the map modal
-function openMap() {
+function openMap(eventSource) {
   mapModal.style.display = "block";
+  openMapButton.setAttribute("data-modal-source", eventSource);
+}
+
+async function getAddress(longitude, latitude) {
+  const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCUHZoJXyaMM-1c4c5GpfC2YCtzSdjJLU8`;
+
+  try {
+    // Make a request to the Google Geocoding API
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    // Check if the API response is successful and contains results
+    if (data.status === "OK" && data.results.length > 0) {
+      // Get the formatted address from the first result
+      const addressComponents = data.results[0].address_components;
+
+      let streetNumber = "";
+      let streetName = "";
+      let city = "";
+      let zipcode = "";
+
+      // Loop through address components and extract required parts
+      for (const component of addressComponents) {
+        if (component.types.includes("street_number")) {
+          streetNumber = component.long_name;
+        } else if (component.types.includes("route")) {
+          streetName = component.long_name;
+        } else if (component.types.includes("locality")) {
+          city = component.long_name;
+        } else if (component.types.includes("postal_code")) {
+          zipcode = component.long_name;
+        }
+      }
+      const standardAddress = `${streetNumber} ${streetName}, ${city}, ${zipcode}`;
+      document.getElementById("postLocation").value = standardAddress;
+      document.getElementById("eventLocation").value =standardAddress;
+      // Now you can use the standard address in your code
+      console.log("Standard Address:", standardAddress);
+    } else {
+      console.log("Geocoding request failed or no results found.");
+    }
+  } catch (error) {
+    console.error("Error fetching geocoding data:", error);
+  }
 }
 
 // Add any additional map configuration or markers here
@@ -86,26 +152,51 @@ function loadNearByPosts(longitude, latitude) {
       let postsHTML = "";
       if (Array.isArray(posts))
         posts.forEach(function (post) {
-          const imageUrl = post.user.imageUrl ? `http://localhost:3000/post/images/${post.user.imageUrl}` : '/images/avatar.png';
+          const imageUrl = post.user.imageUrl
+            ? `http://localhost:3000/post/images/${post.user.imageUrl}`
+            : "/images/avatar.png";
           postsHTML += `
           <div class="card card-shadow mt-3 mb-3">
             <div class="d-flex justify-content-between p-1 px-2">
               <div class="d-flex flex-row align-items-center">
-                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" alt="${post.user.name} profile image"/>
+              
+                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" alt="${
+            post.user.name
+          } profile image"/>
                 <div class="d-flex flex-column ms-2">
-                  <span class="fw-bold fs-5 post-name mb-1  mb-md-0">${post.user.name}</span>
-                  <small class="address-time  d-md-block">${post.user.address ? post.user.address :''} • ${timeSince(
-                    post.createdAt
-                  )} •</small>
+                  <span class="fw-bold fs-5 post-name mb-1  mb-md-0">${
+                    post.user.name
+                  }</span>
+                  <small class="address-time event  d-md-block">${
+                    post.user.address ? post.user.address : ""
+                  } • ${timeSince(post.createdAt)} •</small>
                 </div>
               </div>
             </div>
-            ${post.image ? `
-            <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post" class="img-fluid mb-1 pointer" height="435" width="580" style="margin: auto;" aria-label="Click to view post details"  tabindex="0" onclick="handleNotificationClick('${post._id}')"/>
-          ` : ''}
+            <span   aria-label="Click to view post details"  tabindex="0"
+            class="text-justify post-discription lead pointer" onclick="handleNotificationClick('${
+              post._id
+            }')">${post.postDescription}</span>
+            ${
+              post.image
+                ? `
+            <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post" class="img-fluid mb-1 pointer mt-1" height="435" width="580" style="margin: auto;" aria-label="Click to view post details"  tabindex="0" onclick="handleNotificationClick('${post._id}')"/>
+          `
+                : ""
+            }
+
+            ${post.postType == 'Event'? `
+            <div class="event-detail lead mt-3">
+            <div class="event-date">
+            <span class="date-text">${formatToCustomDate(post.startDate)}</span> ${post.endDate ? `- <span class="date-text">${formatToCustomDate(post.endDate)}</span>`:""}
+            </div>
+            <h2 class="event-title">${post.title}</h2>
+            <div class="event-location"><i class="bi bi-geo-alt text-secondary "></i>${post.locationName}</div>
+            <button class="btn btn-primary event-interested mt-4" type="button" id="interested-${post._id}">Interested?</button>
+            </div>
+            
+            `:""}
             <div class="p-1">
-              <span   aria-label="Click to view post details"  tabindex="0"
-               class="text-justify post-discription lead pointer" onclick="handleNotificationClick('${post._id}')">${post.postDescription}</span>
              
                 <div class=" d-flex flex-row justify-content-end muted-color mt-2">
                 <span class="like-icon" id="likeIcon-${post._id}">
@@ -113,45 +204,95 @@ function loadNearByPosts(longitude, latitude) {
                   post.likesCount === 0
                     ? `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')"><i class="bi bi-heart" style="font-size: 20px ; font-weight: bold; color: red;"></i>  <span class="visually-hidden">Like</span>
                     </button> Be First to like`
-                    : `<button class="btn heart-button" type="button" data-post-id="${post._id}" onclick="toggleLike('${post._id}')">
-                        <i class="bi ${post.userHasLiked ? 'bi-heart-fill' : 'bi-heart'}" style="font-size: 20px; color: red;"></i>
-                        <span class="visually-hidden">Like</span> </button> ${post.likesCount}`
+                    : `<button class="btn heart-button" type="button" data-post-id="${
+                        post._id
+                      }" onclick="toggleLike('${post._id}')">
+                        <i class="bi ${
+                          post.userHasLiked ? "bi-heart-fill" : "bi-heart"
+                        }" style="font-size: 20px; color: red;"></i>
+                        <span class="visually-hidden">Like</span> </button> ${
+                          post.likesCount
+                        }`
                 }
                 
               </span>
-                  <span class="comment-icon" onclick="moveFocusToCommentInput('${post._id}')"><i class="bi bi-chat font-weight-bold" style="font-size: 20px;"></i>  ${
-                    post.commentCount === 0
-                      ? "No comments"
-                      : post.commentCount === 1
-                        ? "1 comment"
-                        : `${post.commentCount} comments`
-                  }</span>
+                  <span class="comment-icon" onclick="moveFocusToCommentInput('${
+                    post._id
+                  }')"><i class="bi bi-chat font-weight-bold" style="font-size: 20px;"></i>  ${
+            post.commentCount === 0
+              ? "No comments"
+              : post.commentCount === 1
+              ? "1 comment"
+              : `${post.commentCount} comments`
+          }</span>
                
               </div>
               <hr />
               <div class="comments" id="${post._id}">
-              ${post.lastComment._id ? `
+              ${
+                post.lastComment._id
+                  ? `
                 <div class="d-flex flex-row mb-2" >
-                <img src="${post.lastComment.user.imageUrl ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}` : 'images/avatar.png'}" alt ="${post.lastComment.user} comment profile image" width="40"  height="40" class="rounded-circle" />
+                <img src="${
+                  post.lastComment.user.imageUrl
+                    ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}`
+                    : "images/avatar.png"
+                }" alt ="${
+                      post.lastComment.user
+                    } comment profile image" width="40"  height="40" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
-                    <span class="fw-bold comment-name">${post.lastComment.user.name}  <small class="comment-address-time">${
-                      post.lastComment.user.address? post.lastComment.user.address :''
-                    } • ${timeSince(post.lastComment.createdAt)} •</small></span>
-                    <small class="comment-text">${post.lastComment.comment}</small>
+                    <span class="fw-bold comment-name">${
+                      post.lastComment.user.name
+                    }  <small class="comment-address-time">${
+                      post.lastComment.user.address
+                        ? post.lastComment.user.address
+                        : ""
+                    } • ${timeSince(
+                      post.lastComment.createdAt
+                    )} •</small></span>
+                    <small class="comment-text">${
+                      post.lastComment.comment
+                    }</small>
                   </div>
                   
-                  ` : ''}
+                  `
+                  : ""
+              }
                 </div>
-                ${post.lastComment._id ? `<hr />`:''}
+                ${post.lastComment._id ? `<hr />` : ""}
                 
                 <div class="comment-input d-flex align-items-center">
-                <img src="${data.posts.currentUserImage ? `http://localhost:3000/post/images/${data.posts.currentUserImage}` : 'images/avatar.png'}" alt='${data.name} profile image' width="40" height="40" class="rounded-circle" />
+                <img src="${
+                  data.posts.currentUserImage
+                    ? `http://localhost:3000/post/images/${data.posts.currentUserImage}`
+                    : "images/avatar.png"
+                }" alt='${
+            data.name
+          } profile image' width="40" height="40" class="rounded-circle" />
                 <div class="input-group">
-                    <label for="comment-${post._id}" class="visually-hidden">Comment</label>
-                    <input type="text" id="comment-${post._id}" class="form-control comment-form" placeholder="Add a comment..." onfocus="onCommentFocus(event, '${post._id}','${data.name}','${data.posts.currentUserImage}','${data.posts.currentUserAddress}')" onBlur="onCommentBlur(event, '${post._id}')" oninput="checkInput(this, 'commentButton-${post._id}')"  onkeypress="handleKeyPress(event, '${post._id}', '${data.name}', '${data.posts.currentUserImage}', '${data.posts.currentUserAddress}')"/>
+                    <label for="comment-${
+                      post._id
+                    }" class="visually-hidden">Comment</label>
+                    <input type="text" id="comment-${
+                      post._id
+                    }" class="form-control comment-form" placeholder="Add a comment..." onfocus="onCommentFocus(event, '${
+            post._id
+          }','${data.name}','${data.posts.currentUserImage}','${
+            data.posts.currentUserAddress
+          }')" onBlur="onCommentBlur(event, '${
+            post._id
+          }')" oninput="checkInput(this, 'commentButton-${
+            post._id
+          }')"  onkeypress="handleKeyPress(event, '${post._id}', '${
+            data.name
+          }', '${data.posts.currentUserImage}', '${
+            data.posts.currentUserAddress
+          }')"/>
             
                 </div>
-                <div class="comment-button-container" id="commentButtonContainer-${post._id}" style="display: none;"></div>
+                <div class="comment-button-container" id="commentButtonContainer-${
+                  post._id
+                }" style="display: none;"></div>
 
             </div>
 
@@ -201,4 +342,19 @@ function timeSince(date) {
     return interval + " minutes";
   }
   return Math.floor(seconds) + " seconds";
+}
+
+function formatToCustomDate(inputDate) {
+  const date = new Date(inputDate);
+
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  };
+
+  return date.toLocaleString("en-US", options);
 }

@@ -114,6 +114,7 @@
             name="title"
             hidden
           />
+          <input type="text" id="postLocation" name="locationName" class="form-control  event-form" readonly hidden>
 
 
           <input
@@ -143,7 +144,7 @@
                 class="icon-link text-decoration-none text-success"
                 href="#"
                 id="openMapButton"
-                onclick="openMap()"
+                data-modal-source="postModal" onclick="openMap('postModal')"
                 data-bs-toggle="modal"
                 data-bs-target="#mapModal"
               >
@@ -168,6 +169,9 @@
               <a
                 class="icon-link text-decoration-none fw-bold text-info"
                 href="#"
+                id="openEventFormButton"
+                data-bs-toggle="modal"
+                data-bs-target="#eventFormModal"
               >
                 <div class="d-flex align-items-center mt-2">
                   <i class="bi bi-calendar-event text-info mb-2"></i>
@@ -225,6 +229,77 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="eventFormModal" tabindex="-1" role="dialog" aria-labelledby="eventFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eventFormModalLabel">Create an Event</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body px-5">
+        <form id="eventForm" action="/savePost" method="POST" enctype="multipart/form-data">
+          <!-- Event Title -->
+          <input type="text" id="eventlatitude" name="latitude" readonly hidden />
+          <input type="text" id="eventlongitude" name="longitude" readonly hidden />
+          <input type="text" id="postType" value="Event" name="postType" readonly hidden />
+      
+          <!-- Event Title Image -->
+          <div class="mb-3">
+            <label for="eventTitleImage" class="form-label">Event Title Image:</label>
+            <div class="event-image-preview-container">
+              <img id="event-imagePreview" src="./images/event-bg.png" alt="Image Preview" class="event-img-thumbnail" height="300" width="300">
+              <input type="file" id="eventTitleImage" name="image" accept="image/*" class="form-control-file d-none">
+              <label for="eventTitleImage" class="choose-file-btn">
+                <i class="bi bi-image text-primary"></i> Choose Image
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventTitle" class="form-label">Event Title:</label>
+            <input type="text" id="eventTitle" name="title" class="form-control event-form" required>
+          </div>
+
+          <!-- Event Start Date -->
+          <div class="mb-3">
+            <label for="eventStartDate" class="form-label">Event Start Date:</label>
+            <input type="datetime-local" id="eventStartDate" name="startDate" class="form-control event-form" required>
+          </div>
+
+          <!-- Event End Date -->
+          <div class="mb-3">
+            <label for="eventEndDate" class="form-label">Event End Date:</label>
+            <input type="datetime-local" id="eventEndDate" name="endDate" class="form-control event-form" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventLocation" class="form-label">Location:</label>
+            <input type="text" id="eventLocation" name="locationName" class="form-control  event-form" readonly>
+            <button type="button" class="btn btn-link text-decoration-none text-success " data-bs-toggle="modal" data-bs-target="#mapModal" data-modal-source="eventFormModal" onclick="openMap('eventFormModal')">
+              <i class="bi bi-geo-alt .text-success"></i>Choose Location
+            </button>
+          </div>
+  
+          <!-- Post Description -->
+          <div class="mb-3">
+            <label for="eventPostDescription" class="form-label">Event Description:</label>
+            <textarea id="eventPostDescription" name="postDescription" class="form-control event-form" rows="4"></textarea>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-custom text-white rounded">
+              <i class="bi bi-plus-lg text-white fw-bold"></i> Create Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="./js/maps-service.js"></script>
 <script src="./js/eventValidation.js"></script>

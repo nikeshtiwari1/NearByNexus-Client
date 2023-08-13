@@ -47,18 +47,29 @@ function loadPostDetail(postId) {
                   </div>
                 </div>
               </div>
+              <span class="text-justify post-discription lead ">${
+                post.postDescription
+              }</span>
               ${
                 post.image
                   ? `
-              <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post"  class="img-fluid mb-1" height="435" width="580" tyle="margin: auto; />
+              <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post"  class="img-fluid mb-1 mt-1" height="435" width="580" style="margin: auto;" />
               `
                   : ""
               }
+              ${post.postType == 'Event'? `
+              <div class="event-detail lead mt-3">
+              <div class="event-date">
+              <span class="date-text">${formatToCustomDate(post.startDate)}</span> ${post.endDate ? `- <span class="date-text">${formatToCustomDate(post.endDate)}</span>`:""}
+              </div>
+              <h2 class="event-title">${post.title}</h2>
+              <div class="event-location"><i class="bi bi-geo-alt text-secondary "></i>${post.locationName}</div>
+              <button class="btn btn-primary event-interested mt-4" type="button" id="interested-${post._id}">Interested?</button>
+              </div>
+              
+              `:""}
               <div class="p-1">
-                <span class="text-justify post-discription lead ">${
-                  post.postDescription
-                }</span>
-               
+            
                   <div class=" d-flex flex-row justify-content-end muted-color mt-2">
                   <span class="like-icon" id="likeIcon-${post._id}">
                   ${
@@ -266,4 +277,18 @@ function timeSince(date) {
     return interval + " minutes";
   }
   return Math.floor(seconds) + " seconds";
+}
+function formatToCustomDate(inputDate) {
+  const date = new Date(inputDate);
+
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  };
+
+  return date.toLocaleString("en-US", options);
 }

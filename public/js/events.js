@@ -259,3 +259,42 @@ function moveFocusToCommentInput(postId) {
   const inputField = document.getElementById(`comment-${postId}`);
   inputField.focus();
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (document.getElementById("eventTitleImage"))
+    document
+      .getElementById("eventTitleImage")
+      .addEventListener("change", function (event) {
+        const previewImage = document.getElementById("event-imagePreview");
+        const selectedImage = event.target.files[0];
+
+        if (selectedImage) {
+          const reader = new FileReader();
+          reader.onload = function () {
+            previewImage.src = reader.result;
+          };
+          reader.readAsDataURL(selectedImage);
+        } else {
+          previewImage.src = "./images/event-bg.png"; // Set default image if no image selected
+        }
+      });
+
+  if (document.getElementById("eventLocation"))
+    document
+      .getElementById("eventLocation")
+      .addEventListener("focus", function () {
+        // Open the map modal when the location input is focused
+        const mapModal = new bootstrap.Modal(
+          document.getElementById("mapModal")
+        );
+        mapModal.show();
+      });
+  // Function to handle the "Okay" button click in the map modal
+  function mapMadalClicked() {
+    // Close the map modal
+    const mapModal = new bootstrap.Modal(document.getElementById("mapModal"));
+    mapModal.hide();
+
+    // Optionally, you can do something else here after the modal is closed
+  }
+});
