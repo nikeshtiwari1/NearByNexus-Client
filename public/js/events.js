@@ -159,7 +159,7 @@ function populateComment(postId, name, comment, imageUrl, address) {
 
   const avatarImage = document.createElement("img");
   if (imageUrl)
-    avatarImage.src = "http://localhost:3000/post/images/" + imageUrl;
+    avatarImage.src = "https://api-nearbunexus.onrender.com/post/images/" + imageUrl;
   else avatarImage.src = "images/avatar.png";
   avatarImage.width = "40";
   avatarImage.classList.add("rounded-circle");
@@ -254,6 +254,12 @@ function handleKeyPress(
     onComment(postId, name, currentUserImage, currentUserAddress, event);
   }
 }
+function handleCommentIconKeydown(event, postId) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault(); 
+    moveFocusToCommentInput(postId);
+  }
+}
 
 function moveFocusToCommentInput(postId) {
   const inputField = document.getElementById(`comment-${postId}`);
@@ -279,16 +285,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-  if (document.getElementById("eventLocation"))
-    document
-      .getElementById("eventLocation")
-      .addEventListener("focus", function () {
-        // Open the map modal when the location input is focused
-        const mapModal = new bootstrap.Modal(
-          document.getElementById("mapModal")
-        );
-        mapModal.show();
-      });
   // Function to handle the "Okay" button click in the map modal
   function mapMadalClicked() {
     // Close the map modal
@@ -298,3 +294,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Optionally, you can do something else here after the modal is closed
   }
 });
+function focusOnPostDescription() {
+  const postDescriptionInput = document.getElementById("postDescription");
+  if (postDescriptionInput) {
+    postDescriptionInput.focus();
+  }
+}

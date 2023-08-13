@@ -17,7 +17,7 @@ const getNotificationCount = async (req, res) => {
     const notifications = await notificationService.getNotificationsCount(
       req.session.token
     );
-console.log("count fetched succesfully ",{ data : notifications});
+    if(notifications)
 res.json({ data: notifications })
   } else res.render("login.ejs");
 };

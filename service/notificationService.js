@@ -20,7 +20,7 @@ const getAllNotifications = async (token) => {
       } else {
         // Handle other errors
         console.error('Error:', error);
-        throw new Error("Error:", error);
+        return null
       }
     }
   };
@@ -40,11 +40,11 @@ const getAllNotifications = async (token) => {
     } catch (error) {
       // Handle any error that occurred during the API call
       if (error.response && error.response.status === 403) {
-        window.location.href = '/logout';
+       return null;
       } else {
         // Handle other errors
         console.error('Error:', error);
-        throw new Error("Error:", error);
+        return null;
       }
     }
   };
@@ -64,11 +64,11 @@ const getAllNotifications = async (token) => {
     } catch (error) {
       // Handle any error that occurred during the API call
       if (error.response && error.response.status === 403) {
-        window.location.href = '/logout';
+        return null
       } else {
         // Handle other errors
         console.error('Error:', error);
-        throw new Error("Error:", error);
+        return null
       }
     }
   };

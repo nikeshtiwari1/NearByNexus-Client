@@ -28,7 +28,7 @@ function loadPostDetail(postId) {
       // Update the UI with the retrieved posts
       let postsHTML = "";
       const imageUrl = post.user.imageUrl
-        ? `http://localhost:3000/post/images/${post.user.imageUrl}`
+        ? `https://api-nearbunexus.onrender.com/post/images/${post.user.imageUrl}`
         : "images/avatar.png";
       postsHTML += `
             <div class="card card-shadow mt-3 mb-3">
@@ -53,7 +53,7 @@ function loadPostDetail(postId) {
               ${
                 post.image
                   ? `
-              <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post"  class="img-fluid mb-1 mt-1" height="435" width="580" style="margin: auto;" />
+              <img src="https://api-nearbunexus.onrender.com/post/images/${post.image}" alt ="${post.user.name} post"  class="img-fluid mb-1 mt-1" height="435" width="580" style="margin: auto;" />
               `
                   : ""
               }
@@ -89,7 +89,9 @@ function loadPostDetail(postId) {
                   }
                   
                 </span>
-                    <span class="comment-icon" onclick="moveFocusToCommentInput('${
+                    <span class="comment-icon" role="button"  tabindex="0" onkeydown="handleCommentIconKeydown('${
+                      post._id
+                    }')" onclick="moveFocusToCommentInput('${
                       post._id
                     })" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
         commentCount === 0
@@ -117,7 +119,7 @@ function loadPostDetail(postId) {
                   <div class="d-flex flex-row comment-padding">
                   <img src="${
                     comment.user.imageUrl
-                      ? `http://localhost:3000/post/images/${comment.user.imageUrl}`
+                      ? `https://api-nearbunexus.onrender.com/post/images/${comment.user.imageUrl}`
                       : "images/avatar.png"
                   }" alt ="Profile image of ${
                       comment.user.name
@@ -141,11 +143,11 @@ function loadPostDetail(postId) {
                   <div class="comment-input d-flex align-items-center">
                   <img src="${
                     data.posts.currentUserImage
-                      ? `http://localhost:3000/post/images/${data.posts.currentUserImage}`
+                      ? `https://api-nearbunexus.onrender.com/post/images/${data.posts.currentUserImage}`
                       : "images/avatar.png"
-                  }" alt='${
+                  }" alt='Profile image of ${
         data.name
-      } profile image' width="40" height="40" class="rounded-circle" />
+      } passing the comment.' width="40" height="40" class="rounded-circle" />
                   <div class="input-group">
                       <label for="comment-${
                         post._id
@@ -214,7 +216,7 @@ function loadMoreComments(postId, startIndex) {
         <div class="d-flex flex-row comment-padding">
           <img src="${
             comment.user.imageUrl
-              ? `http://localhost:3000/post/images/${comment.user.imageUrl}`
+              ? `https://api-nearbunexus.onrender.com/post/images/${comment.user.imageUrl}`
               : "images/avatar.png"
           }" alt="Profile image of ${
         comment.user.name

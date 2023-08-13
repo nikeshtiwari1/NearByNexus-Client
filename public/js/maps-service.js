@@ -153,16 +153,16 @@ function loadNearByPosts(longitude, latitude) {
       if (Array.isArray(posts))
         posts.forEach(function (post) {
           const imageUrl = post.user.imageUrl
-            ? `http://localhost:3000/post/images/${post.user.imageUrl}`
+            ? `https://api-nearbunexus.onrender.com/post/images/${post.user.imageUrl}`
             : "/images/avatar.png";
           postsHTML += `
           <div class="card card-shadow mt-3 mb-3">
             <div class="d-flex justify-content-between p-1 px-2">
               <div class="d-flex flex-row align-items-center">
               
-                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" alt="${
+                <img src="${imageUrl}" width="50" height= "50" class="rounded-circle" alt="Profile image of ${
             post.user.name
-          } profile image"/>
+          }  who posted this event."/>
                 <div class="d-flex flex-column ms-2">
                   <span class="fw-bold fs-5 post-name mb-1  mb-md-0">${
                     post.user.name
@@ -180,7 +180,7 @@ function loadNearByPosts(longitude, latitude) {
             ${
               post.image
                 ? `
-            <img src="http://localhost:3000/post/images/${post.image}" alt ="${post.user.name} post" class="img-fluid mb-1 pointer mt-1" height="435" width="580" style="margin: auto;" aria-label="Click to view post details"  tabindex="0" onclick="handleNotificationClick('${post._id}')"/>
+            <img src="https://api-nearbunexus.onrender.com/post/images/${post.image}" alt ="${post.user.name} post" class="img-fluid mb-1 pointer mt-1" height="435" width="580" style="margin: auto;" aria-label="Click to view post details"  tabindex="0" onclick="handleNotificationClick('${post._id}')"/>
           `
                 : ""
             }
@@ -216,7 +216,9 @@ function loadNearByPosts(longitude, latitude) {
                 }
                 
               </span>
-                  <span class="comment-icon" onclick="moveFocusToCommentInput('${
+                  <span class="comment-icon" role="button"  tabindex="0" onkeydown="handleCommentIconKeydown('${
+                    post._id
+                  }')" onclick="moveFocusToCommentInput('${
                     post._id
                   }')"><i class="bi bi-chat font-weight-bold" style="font-size: 20px;"></i>  ${
             post.commentCount === 0
@@ -235,11 +237,11 @@ function loadNearByPosts(longitude, latitude) {
                 <div class="d-flex flex-row mb-2" >
                 <img src="${
                   post.lastComment.user.imageUrl
-                    ? `http://localhost:3000/post/images/${post.lastComment.user.imageUrl}`
+                    ? `https://api-nearbunexus.onrender.com/post/images/${post.lastComment.user.imageUrl}`
                     : "images/avatar.png"
-                }" alt ="${
+                }" alt ="Profile image of ${
                       post.lastComment.user
-                    } comment profile image" width="40"  height="40" class="rounded-circle" />
+                    } ho has passed in the comment." width="40"  height="40" class="rounded-circle" />
                 <div class="d-flex flex-column ms-2">
                     <span class="fw-bold comment-name">${
                       post.lastComment.user.name
@@ -264,11 +266,11 @@ function loadNearByPosts(longitude, latitude) {
                 <div class="comment-input d-flex align-items-center">
                 <img src="${
                   data.posts.currentUserImage
-                    ? `http://localhost:3000/post/images/${data.posts.currentUserImage}`
+                    ? `https://api-nearbunexus.onrender.com/post/images/${data.posts.currentUserImage}`
                     : "images/avatar.png"
-                }" alt='${
+                }" alt='Profile image of ${
             data.name
-          } profile image' width="40" height="40" class="rounded-circle" />
+          } posting a comment.' width="40" height="40" class="rounded-circle" />
                 <div class="input-group">
                     <label for="comment-${
                       post._id

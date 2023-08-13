@@ -171,7 +171,7 @@ const getImages = async (filename) => {
 
 const logout = async (token) => {
   try {
-    const response = await axios.get("http://localhost:3000/logout", {
+    const response = await axios.get(`${config.baseUrl}/logout`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
