@@ -679,6 +679,29 @@ button.heart-button:focus {
   align-items: center;
 }
 
+.see-previous-comments-button {
+  color:#0076b6;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  background: transparent;
+  border: none;
+  margin-left: 1.4rem;
+  margin-bottom: 1rem;;
+  padding: 0;
+  text-align: left;
+  text-transform: none;
+  text-decoration: none;
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 @keyframes thumbFill {
   0% {
     transform: scale(1);

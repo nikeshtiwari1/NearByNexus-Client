@@ -106,7 +106,7 @@ function loadPostDetail(postId) {
                   viewMore
                     ? `
                  
-                    <button class="btn btn-link" id="viewMoreBtn" onclick="loadMoreComments('${post._id}', ${commentsToShowInitially})">Show More Comments</button>
+                    <button class="btn btn-link see-previous-comments-button" id="viewMoreBtn" onclick="loadMoreComments('${post._id}', ${commentsToShowInitially})">Show More Comments</button>
                   `
                     : ""
                 }
@@ -247,7 +247,7 @@ function loadMoreComments(postId, startIndex) {
   // Add the "Show More Comments" button if needed
   if (viewMore) {
     commentsContainer.innerHTML = `
-      <button class="btn btn-link" id = "viewMoreBtn" onclick="loadMoreComments('${postId}', ${startIndex})">Show More Comments</button>
+      <button class="btn btn-link see-previous-comments-button" id = "viewMoreBtn" onclick="loadMoreComments('${postId}', ${startIndex})">Show More Comments</button>
     ` + commentsContainer.innerHTML;
   }
 }
