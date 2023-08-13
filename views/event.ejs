@@ -45,7 +45,7 @@
                 height="76"
                 width="76"
                 data-pin-nopin="true"
-                src="<%= imageUrl ? 'http://localhost:3000/post/images/' + imageUrl : 'images/avatar.png' %>"
+                src="<%= imageUrl ? 'https://api-nearbunexus.onrender.com/post/images/' + imageUrl : 'images/avatar.png' %>"
                 style="height: 40px; width: 40px"
               /></div
           ></span>
@@ -78,7 +78,7 @@
 
 <!-- Modal -->
 <div
-  class="modal fade modal-xl"
+  class="modal fade modal-lg"
   id="postMaodal"
   tabindex="-1"
   role="dialog"
@@ -89,9 +89,13 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-body px-5">
-        <form action="/savePost" method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-sm-8 col-md-8">
+        <form id="postForm" action="/savePost" method="POST" enctype="multipart/form-data">
           <div class="form-outline">
+            <label for="latitude" class="visually-hidden">latitude</label>
             <input type="text" id="latitude" name="latitude" readonly hidden />
+            <label for="longitude" class="visually-hidden">longitude</label>
             <input
               type="text"
               id="longitude"
@@ -99,6 +103,7 @@
               readonly
               hidden
             />
+            <label for="postType" class="visually-hidden">postType</label>
             <input
               type="text"
               id="postType"
@@ -107,6 +112,7 @@
               readonly
               hidden
             />
+            <label for="title" class="visually-hidden">title</label>
             <input
             type="text"
             id="title"
@@ -114,32 +120,39 @@
             name="title"
             hidden
           />
+          <label for="postLocation" class="visually-hidden">postLocation</label>
+          <input type="text" id="postLocation" name="locationName" class="form-control  event-form" readonly hidden>
 
-
-            <input
-              type="text"
-              name="postDescription"
-              id="post"
-              class="form-control my-3 form-rounded form-control-lg h-75"
-              placeholder="What's on your mind, neighbour?"
-            />
+          <label for="postDescription" class="visually-hidden">postDescription</label>
+          <input
+          type="text"
+          name="postDescription"
+          id="postDescription"
+          class="form-control my-3 form-rounded form-control-lg h-75 post-desc"
+          placeholder="What's on your mind, neighbour?"
+        
+      />
+      <div class="invalid-feedback" id="postDescriptionError">
+          Please enter a valid post description.
+      </div>
         
             <div class="image-preview-container">
-              <!-- Close icon -->
+              
               <i class="bi bi-x close-icon" id="closeIcon"></i>              <!-- Image preview element -->
               <img id="imagePreview" src="#" alt="Image Preview" class="img-thumbnail" style="display: none;margin: auto;" height="300" width = "300">
             </div>
-            <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
-            <label for="imageInput" class="mb-2" id="imageInputLabel">
-              <i class="bi bi-image text-primary">Add photo
-              </i>
-            </label>
-            <div class="text-left mb-3" style="text-align: left">
+           
+            <div class="text-left mb-3 mr-2" style="text-align: left; cursor: pointer;">
+              <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
+              <label for="imageInput" class="mb-2 m-2" id="imageInputLabel">
+                <i class="bi bi-image text-primary">Add photo
+                </i>
+              </label>
               <a
                 class="icon-link text-decoration-none text-success"
                 href="#"
                 id="openMapButton"
-                onclick="openMap()"
+                data-modal-source="postModal" onclick="openMap('postModal')"
                 data-bs-toggle="modal"
                 data-bs-target="#mapModal"
               >
@@ -149,49 +162,64 @@
                 Add a location
               </a>
             </div>
-
-            <div style="text-align: left" class="mt-4">
-              <!-- <a
-                class="icon-link text-decoration-none fw-bold text-primary"
-                href="#"
-              >
-                <div class="d-flex align-items-center mt-2">
-                  <i class="bi bi-image text-primary mb-2"></i>
-                </div>
-                Add photo or video
-              </a>
-              <br /> -->
+          </div>
+          <button
+          type="submit"
+          class="btn btn-custom text-white rounded "
+          
+        >
+          <i class="bi bi-plus-lg text-white fw-bold"></i> Post
+        </button>
+      </form>
+        </div>
+          <div class="col-sm-4 col-md-4">
+            <div style="text-align: left" class="mt-4 nb-2">
               <a
-                class="icon-link text-decoration-none fw-bold text-info"
+                class="option-icon-link text-decoration-none fw-bold text-success"
                 href="#"
+                id="openEventFormButton"
+                data-bs-toggle="modal"
+                data-bs-target="#eventFormModal"
+                role="button"
+                tabindex="0"
+                aria-label="Create an Event"
               >
-                <div class="d-flex align-items-center mt-2">
-                  <i class="bi bi-calendar-event text-info mb-2"></i>
-                </div>
-                Create an Event
+                <div class="d-flex align-items-center mt-2 option-button">
+                  <div class="option-icon">
+                    <i class="bi bi-calendar-event text-success mb-2"></i>
+                  </div>  
+                 
+                  <div class="option-link">
+                    <span>Create an Event</span>
+                  </div>
+             
               </a>
-              <br />
+            </div>
+             
               <a
-                class="icon-link text-decoration-none fw-bold text-warning d-flex align-items-center"
-                href="#"
+              class="option-icon-link text-decoration-none fw-bold text-success"
+              href="#"
+              role="button"
+              tabindex="0"
+              onclick="focusOnPostDescription()"
+              aria-label="Post an Incident"
               >
-                <div class="d-flex align-items-center mt-2">
-                  <i class="bi bi-image bg text-warning mb-2"></i>
+              <div class="d-flex align-items-center mt-2 option-button">
+                <div class="option-icon">
+                  <i class="bi bi-file-earmark-post text-success mb-2"></i>
+                </div>  
+               
+                <div class="option-link">
+                  <span>Post a Incident</span>
                 </div>
-                Saftey Event
               </a>
             </div>
           </div>
 
-          <button
-            type="submit"
-            class="btn btn-custom text-white rounded"
-            style="float: right"
-          >
-            <i class="bi bi-plus-lg text-white fw-bold"></i> Post
-          </button>
-        </form>
+     
       </div>
+    </div>
+    </div>
     </div>
   </div>
 </div>
@@ -207,7 +235,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-body px-5">
+      <div class="modal-body px-5 map-mobile">
         <div id="map"></div>
         <button
           type="submit"
@@ -222,7 +250,83 @@
   </div>
 </div>
 
+<div class="modal fade" id="eventFormModal" tabindex="-1" role="dialog" aria-labelledby="eventFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eventFormModalLabel">Create an Event</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body px-5">
+        <form id="eventForm" action="/savePost" method="POST" enctype="multipart/form-data">
+          <!-- Event Title -->
+          <label for="eventlatitude" class="visually-hidden">latitude</label>
+          <input type="text" id="eventlatitude" name="latitude" readonly hidden />
+          <label for="eventlongitude" class="visually-hidden">latitude</label>
+          <input type="text" id="eventlongitude" name="longitude" readonly hidden />
+          <label for="eventPostType" class="visually-hidden">postType</label>
+          <input type="text" id="eventPostType" value="Event" name="postType" readonly hidden />
+      
+          <!-- Event Title Image -->
+          <div class="mb-3">
+            <span class="form-label">Event Title Image:</span>
+            <div class="event-image-preview-container">
+              <img id="event-imagePreview" src="./images/event-bg.png" alt="Image Preview" class="event-img-thumbnail" height="300" width="300">
+              <input type="file" id="eventTitleImage" name="image" accept="image/*" class="form-control-file d-none">
+              <label for="eventTitleImage" class="choose-file-btn">
+                <i class="bi bi-image text-primary"></i> Choose Image
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventTitle" class="form-label">Event Title:</label>
+            <input type="text" id="eventTitle" name="title" class="form-control event-form" required>
+          </div>
+
+          <!-- Event Start Date -->
+          <div class="mb-3">
+            <label for="eventStartDate" class="form-label">Event Start Date:</label>
+            <input type="datetime-local" id="eventStartDate" name="startDate" class="form-control event-form" required>
+          </div>
+
+          <!-- Event End Date -->
+          <div class="mb-3">
+            <label for="eventEndDate" class="form-label">Event End Date:</label>
+            <input type="datetime-local" id="eventEndDate" name="endDate" class="form-control event-form" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventLocation" class="form-label">Location:</label>
+            <input type="text" id="eventLocation" name="locationName" class="form-control  event-form" readonly>
+            <button type="button" class="btn btn-link text-decoration-none text-success " data-bs-toggle="modal" data-bs-target="#mapModal" data-modal-source="eventFormModal" onclick="openMap('eventFormModal')">
+              <i class="bi bi-geo-alt .text-success"></i>Choose Location
+            </button>
+          </div>
+  
+          <!-- Post Description -->
+          <div class="mb-3">
+            <label for="eventPostDescription" class="form-label">Event Description:</label>
+            <textarea id="eventPostDescription" name="postDescription" class="form-control event-form" rows="4"></textarea>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-custom text-white rounded">
+              <i class="bi bi-plus-lg text-white fw-bold"></i> Create Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script src="./js/maps-service.js"></script>
+<script src="./js/eventValidation.js"></script>
+
 <% function timeSince(date) { %>
   <% const seconds = Math.floor((new Date() - new Date(date)) / 1000); %>
   <% let interval = Math.floor(seconds / 31536000); %>

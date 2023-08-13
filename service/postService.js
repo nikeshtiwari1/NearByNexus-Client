@@ -2,7 +2,7 @@ const axios = require("axios");
 const config = require('../config/baseConfig.js');
 const FormData = require('form-data');
 
-const savePost = async (title,postDescription,latitude,longitude,startDate,endDate,postType,image,token) => {
+const savePost = async (title,postDescription,latitude,longitude,locationName,startDate,endDate,postType,image,token) => {
   try {
     // Make a POST request to the login endpoint
     const formData = new FormData();
@@ -12,6 +12,8 @@ const savePost = async (title,postDescription,latitude,longitude,startDate,endDa
     formData.append('postDescription', postDescription);
     formData.append('latitude', latitude);
     formData.append('longitude', longitude);
+    formData.append('locationName', locationName);
+
     if(startDate)
     formData.append('startDate', startDate);
     if(endDate)

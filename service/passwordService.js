@@ -1,9 +1,10 @@
 const axios = require("axios");
+const config = require("../config/baseConfig.js");
 
 const forgetPassword = async (email) => {
   try {
     // Make a POST request to the login endpoint
-    const response = await axios.post("http://localhost:3000/reset-password", {
+    const response = await axios.post( `${config.baseUrl}/reset-password`, {
       email,
     });
 
@@ -23,7 +24,7 @@ const validateToken = async (token) => {
   try {
     // Make a POST request to the login endpoint
     const response = await axios.get(
-      `http://localhost:3000/password-reset/request?token=${token}`
+       `${config.baseUrl}/password-reset/request?token=${token}`
     );
 
     // Extract the data from the response
@@ -42,7 +43,7 @@ const changePassword = async (password, confirmPassword, token) => {
   try {
     // Make a POST request to the login endpoint
     const response = await axios.post(
-      "http://localhost:3000/confirm-reset-password",
+      `${config.baseUrl}/confirm-reset-password`,
       {
         password,
         confirmPassword,

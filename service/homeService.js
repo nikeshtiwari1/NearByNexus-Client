@@ -5,7 +5,7 @@ const config = require('../config/baseConfig.js');
 const login = async (email, password) => {
   try {
     // Make a POST request to the login endpoint
-    const response = await axios.post("http://localhost:3000/login", {
+    const response = await axios.post(`${config.baseUrl}/login`, {
       email,
       password,
     });
@@ -16,16 +16,19 @@ const login = async (email, password) => {
     // Pass the data to the view
     return { data };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error: in service", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+    }
   }
 };
 
 const register = async (name, email, password, phoneNumber, dateOfBirth) => {
   try {
     // Make a POST request to the login endpoint
-    const response = await axios.post("http://localhost:3000/register", {
+    const response = await axios.post(`${config.baseUrl}/register`, {
       name,
       email,
       password,
@@ -39,9 +42,12 @@ const register = async (name, email, password, phoneNumber, dateOfBirth) => {
     // Pass the data to the view
     return { data };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+    }
   }
 };
 
@@ -55,7 +61,7 @@ const updateProfile = async (
   try {
     // Make a POST request to the login endpoint
     const response = await axios.post(
-      "http://localhost:3000/profile",
+      `${config.baseUrl}/profile`,
       {
         name,
         phoneNumber,
@@ -75,9 +81,12 @@ const updateProfile = async (
     // Pass the data to the view
     return { data };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+    }
   }
 };
 
@@ -89,7 +98,7 @@ const updateToken = async (
     // Make a POST request to the login endpoint
     console.log("making tequest",deviceToken);
     const response = await axios.post(
-      "http://localhost:3000/update/token",
+      `${config.baseUrl}/update/token`,
       {
         token:deviceToken,
       },
@@ -106,15 +115,18 @@ const updateToken = async (
     // Pass the data to the view
     return { data };
   } catch (error) {
-    // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+    }
   }
 };
 
 const getProfile = async (token) => {
   try {
-    const response = await axios.get("http://localhost:3000/profile", {
+    const response = await axios.get(`${config.baseUrl}/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -127,8 +139,12 @@ const getProfile = async (token) => {
     return { data };
   } catch (error) {
     // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+     return null;
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+    }
   }
 };
 
@@ -144,14 +160,18 @@ const getImages = async (filename) => {
     return { data };
   } catch (error) {
     // Handle any error that occurred during the API call
-    console.error("Error:", error);
-    throw new Error("Error:", error);
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/logout';
+    } else {
+      // Handle other errors
+      console.error('Error:', error);
+    }
   }
 };
 
 const logout = async (token) => {
   try {
-    const response = await axios.get("http://localhost:3000/logout", {
+    const response = await axios.get(`${config.baseUrl}/logout`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -168,7 +188,6 @@ const logout = async (token) => {
     } else {
       // Handle other errors
       console.error('Error:', error);
-      throw new Error("Error:", error);
     }
   }
 };
@@ -205,7 +224,6 @@ const uploadProfileImage = async (image,token) => {
     } else {
       // Handle other errors
       console.error('Error:', error);
-      throw new Error("Error:", error);
     }
   }
 };
