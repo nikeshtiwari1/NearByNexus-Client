@@ -64,8 +64,11 @@ function loadPostDetail(postId) {
               </div>
               <h2 class="event-title">${post.title}</h2>
               <div class="event-location"><i class="bi bi-geo-alt text-secondary "></i>${post.locationName}</div>
-              <button class="btn btn-primary event-interested mt-4" type="button" id="interested-${post._id}">Interested?</button>
-              </div>
+              <div class="event-interest-list mt-2" id = "interest-count-${post._id}">  ${dataModel.interestsCount > 0 ? dataModel.interestsCount + " Interested" : ''}</div>
+              <button class=" ${
+                dataModel.userHasInterest ? "btn btn-secondary event-interested user-interested mt-4" : "btn btn-primary event-interested mt-4"
+              }"  type="button" id="interested-${post._id}"  onclick="toggleInterested('${post._id}')">${
+                dataModel.userHasInterest ? "Your are Interested" : "Interested?"}</button>              </div>
               
               `:""}
               <div class="p-1">
@@ -93,7 +96,7 @@ function loadPostDetail(postId) {
                       post._id
                     }')" onclick="moveFocusToCommentInput('${
                       post._id
-                    })" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
+                    }')" ><i class="bi bi-chat" style="font-size: 20px;"></i>  ${
         commentCount === 0
           ? "No comments"
           : commentCount === 1
@@ -259,27 +262,28 @@ function timeSince(date) {
   const seconds = Math.floor((new Date() - new Date(date)) / 1000);
   let interval = Math.floor(seconds / 31536000);
 
-  if (interval > 1) {
-    return interval + " years";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " year" : " years");
   }
   interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return interval + " months";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " month" : " months");
   }
   interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return interval + " days";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " day" : " days");
   }
   interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return interval + " hours";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " hour" : " hours");
   }
   interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return interval + " minutes";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " minute" : " minutes");
   }
-  return Math.floor(seconds) + " seconds";
+  return Math.floor(seconds) + (seconds === 1 ? " second" : " seconds");
 }
+
 function formatToCustomDate(inputDate) {
   const date = new Date(inputDate);
 

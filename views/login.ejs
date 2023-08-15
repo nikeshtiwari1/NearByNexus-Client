@@ -1,6 +1,6 @@
 <%- include('partials/navbar.ejs') %>
 
-<form method="POST" action="/login">
+<form id="loginForm" method="POST" action="/login">
   <div class="container text-center mt-5 col-lg-4">
     <h5>Welcome to NearByNexus! Please Login</h5>
   </div>
@@ -20,11 +20,11 @@
     <div class="input-group col-lg-12 mb-3">
       <input
         id="email"
-        type="email"
+        type="text"
         class="form-control"
         placeholder="Email"
         name="email"
-        required
+        
       />
     </div>
 
@@ -36,7 +36,7 @@
         class="form-control"
         placeholder="Password"
         name="password"
-        required
+        
       />
     </div>
 
@@ -75,7 +75,7 @@
             <div class="form-outline">
                 <input type="email" name="email" id="typeEmail" class="form-control my-3" placeholder="Enter email" />
             </div>
-            <input type="submit" value="Send reset email"  class="btn btn-primary w-100">
+            <input type="submit" id="submitBtn" value="Send reset email"  class="btn btn-primary w-100">
           </form>
             <div class="d-flex justify-content-between mt-4">
                 <a class="" href="/login">Login</a>
@@ -96,5 +96,5 @@
   </div>
   <br />
   <br />
-
+  <script src="./js/loginValidation.js"></script>
 <%- include('partials/footer.ejs') %>

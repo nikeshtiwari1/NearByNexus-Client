@@ -1,5 +1,5 @@
 <%- include('partials/navbar.ejs') %>
-<form method="POST" action="/register">
+<form id = "registerForm" method="POST" action="/register">
   <div class="container text-center mt-5 col-lg-4">
     <h5>Create your NearByNexus Account</h5>
     <% if (typeof error !== 'undefined') { %>
@@ -104,4 +104,6 @@
   </div>
   <br />
 </form>
+<script src="./js/registerValidation.js"></script>
+
 <%- include('partials/footer.ejs') %>
