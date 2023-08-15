@@ -62,6 +62,8 @@ router.post("/post/comments",checkAuth, commentController.postComment);
 
 router.post("/post/like",checkAuth, likeController.likePost);
 
+router.post("/post/interest",checkAuth, likeController.interestPost);
+
 router.post("/updateSettings", checkAuth, settingsController.updateSettings);
 router.get("/settings",checkAuth, settingsController.settings);
 

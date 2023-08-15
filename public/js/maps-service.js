@@ -192,7 +192,12 @@ function loadNearByPosts(longitude, latitude) {
             </div>
             <h2 class="event-title">${post.title}</h2>
             <div class="event-location"><i class="bi bi-geo-alt text-secondary "></i>${post.locationName}</div>
-            <button class="btn btn-primary event-interested mt-4" type="button" id="interested-${post._id}">Interested?</button>
+            <div class="event-interest-list mt-2" id = "interest-count-${post._id}">  ${post.interestsCount > 0 ? post.interestsCount + " Interested" : ''}
+            </div>
+            <button class=" ${
+              post.userHasInterest ? "btn btn-secondary event-interested user-interested mt-4" : "btn btn-primary event-interested mt-4"
+            }"  type="button" id="interested-${post._id}"  onclick="toggleInterested('${post._id}')">${
+              post.userHasInterest ? "Your are Interested" : "Interested?"}</button>
             </div>
             
             `:""}
@@ -324,26 +329,26 @@ function timeSince(date) {
   const seconds = Math.floor((new Date() - new Date(date)) / 1000);
   let interval = Math.floor(seconds / 31536000);
 
-  if (interval > 1) {
-    return interval + " years";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " year" : " years");
   }
   interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return interval + " months";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " month" : " months");
   }
   interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return interval + " days";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " day" : " days");
   }
   interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return interval + " hours";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " hour" : " hours");
   }
   interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return interval + " minutes";
+  if (interval >= 1) {
+    return interval + (interval === 1 ? " minute" : " minutes");
   }
-  return Math.floor(seconds) + " seconds";
+  return Math.floor(seconds) + (seconds === 1 ? " second" : " seconds");
 }
 
 function formatToCustomDate(inputDate) {

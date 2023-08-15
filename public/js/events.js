@@ -106,6 +106,47 @@ function toggleLike(postId) {
   }
 }
 
+function toggleInterested(postId) {
+  const button = document.getElementById(`interested-${postId}`);
+  
+  // Simulate toggling the userHasInterest state
+  const userHasInterest = !button.classList.contains("user-interested");
+  
+  // Update the button's CSS class and content based on the userHasInterest state
+  if (userHasInterest) {
+    button.classList.add("user-interested");
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    button.textContent = "Your are Interested";
+  } else {
+    button.classList.remove("user-interested");
+    button.classList.add("btn-primary");
+    button.classList.remove("btn-secondary");
+    button.textContent = "Interested?";
+  }
+    fetch("/post/interest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ postId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the API response
+        console.log("API response:", data);
+        const interests = data.data.data.interests;
+        const interestCountElement = document.getElementById(`interest-count-${postId}`);
+        if (interestCountElement) {
+          interestCountElement.textContent = interests.interestCount > 0 ? interests.interestCount + " Interested" : '';
+        }
+      })
+      .catch((error) => {
+        // Handle API error
+        console.error("API error:", error);
+      });
+  }
+
 likeButtons.forEach((button) => {
   button.addEventListener("click", function () {
     const postId = this.getAttribute("data-post-id");

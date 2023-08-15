@@ -684,6 +684,16 @@ button.heart-button:focus {
   align-items: center;
 }
 
+.user-interested{
+  background-color: #384b47; 
+}
+.event-interest-list{
+  font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #666666;
+}
+
 .see-previous-comments-button {
   color:#0076b6;
   display: inline-block;
