@@ -6,20 +6,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirmPassword");
     const registerForm = document.getElementById("registerForm");
-
+  
     const validateField = (field, errorMessage) => {
       const fieldValue = field.value.trim();
+      const errorElement = field.nextElementSibling;
+  
       if (fieldValue === "") {
         field.classList.add("is-invalid");
-        field.nextElementSibling.textContent = errorMessage;
+        if (errorElement) {
+          errorElement.textContent = errorMessage;
+        }
         return false;
       } else {
         field.classList.remove("is-invalid");
-        field.nextElementSibling.textContent = "";
+        if (errorElement) {
+          errorElement.textContent = "";
+        }
         return true;
       }
     };
-
+  
     registerForm.addEventListener("submit", function (event) {
       const isNameValid = validateField(nameInput, "Name is required.");
       const isEmailValid = validateField(emailInput, "Email is required.");
@@ -27,9 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const isDateOfBirthValid = validateField(dateOfBirthInput, "Date of birth is required.");
       const isPasswordValid = validateField(passwordInput, "Password is required.");
       const isConfirmPasswordValid = validateField(confirmPasswordInput, "Confirm password is required.");
-
+  
       if (!isNameValid || !isEmailValid || !isPhoneNumberValid || !isDateOfBirthValid || !isPasswordValid || !isConfirmPasswordValid) {
         event.preventDefault(); // Prevent form submission
       }
     });
   });
+  

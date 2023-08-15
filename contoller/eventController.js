@@ -2,8 +2,9 @@ const postService = require("../service/postService.js");
 const homeService = require("../service/homeService.js");
 const event = async (req, res) => {
   if (req.session && req.session.userId != null && req.session.role == "User") {
+    const message = req.query.message;
     const profile = await homeService.getProfile(req.session.token);
-    if (profile) res.render("event.ejs", { imageUrl: profile.data.imageUrl });
+    if (profile) res.render("event.ejs", { imageUrl: profile.data.imageUrl, message: message });
     else res.render("login.ejs");
   } else res.render("login.ejs");
 };
@@ -43,7 +44,6 @@ const getPostDetail = async (req, res) => {
 };
 
 const savePost = async (req, res) => {
-  console.log("event", req.file);
   const {
     title,
     postDescription,
@@ -77,11 +77,12 @@ const savePost = async (req, res) => {
       req.session.token
     );
     // const posts = await postService.getAllPost(req.session.token);
-
-    res.render("event.ejs", {
-      message: "Post created succesfull!",
-      imageUrl: profile.data.imageUrl,
-    });
+    const successMessage = encodeURIComponent("Post created successfully!");
+    res.redirect(`/event?message=${successMessage}`);
+    // res.render("event.ejs", {
+    //   message: "Post created succesfull!",
+    //   imageUrl: profile.data.imageUrl,
+    // });
   } catch (error) {
     const posts = await postService.getAllPost(req.session.token);
     console.log("error on controller", { error, posts: posts });
