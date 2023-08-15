@@ -78,9 +78,7 @@ if ('serviceWorker' in navigator) {
               </a>
               <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="max-height: 300px; overflow-y: auto;">
                 <li><a class="dropdown-item" href="/profile">Account</a></li>
-                <% if (userDetail.role === 'User') { %>
-                  <li><a class="dropdown-item" href="/settings">Settings</a></li>
-                <% } %>
+               
                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
               </ul>
             </li>
