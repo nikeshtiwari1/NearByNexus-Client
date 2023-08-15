@@ -388,6 +388,9 @@ button.post-btn {
   padding-bottom: .5rem !important;
 }
 
+.rounded-circle{
+  overflow: hidden;
+}
 /* Add the fill animation */
 .heart-button {
   --bs-btn-padding-x: -0.25rem;

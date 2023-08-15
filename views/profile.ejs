@@ -22,8 +22,14 @@
   <p class="title"><%= profile.email %></p>
   <p><b>Phone No.: </b>+<%= profile.phoneNumber %></p>
   <p><b>Address: </b><%= profile.address %></p>
-  <p><b>Birthday: </b><%= profile.dateOfBirth %></p>
-
+  <p><b>Birthday: </b><%= profile.dateOfBirth %> <%= settings.pushEnabled %></p>
+  <p><b></b> <% if (settings) { %>
+    <label class="checkbox-inline">
+      <input id="notificationsToggle" type="checkbox" onChange="handleNotificationsToggle()" <%= settings.pushEnabled ? 'checked' : '' %> data-toggle="toggle"> Notifications
+    </label>
+  <% } else { %>
+    <input id="notificationsToggle" type="checkbox" onChange="handleNotificationsToggle()" checked data-toggle="toggle"> Notifications
+    <% } %> </p>
   <!-- Trigger the modal with a button -->
   <p>
     <button
@@ -126,4 +132,6 @@
     </div>
   </div>
 </div>
+<script src="./js/settings.js"></script>
+
 <%- include('partials/footer.ejs') %>

@@ -1,5 +1,6 @@
 const homeService = require("../service/homeService.js");
 const session = require("express-session");
+const notificationService = require("../service/settingsService.js");
 
 const home = async (req, res) => {
   console.log(req.session.userId);
@@ -55,10 +56,11 @@ const register = (req, res) => {
 
 const profile = async (req, res) => {
   const successMessage = req.query.message;
+  const settings = await notificationService.getSettings(req.session.token);
 
   const profile = await homeService.getProfile(req.session.token);
-
-  res.render("profile.ejs", { profile: profile.data, message: successMessage });
+console.log("test ", { profile: profile.data, message: successMessage, settings })
+  res.render("profile.ejs", { profile: profile.data, message: successMessage, settings:settings.data.settings });
 };
 
 const getImages = async (req, res) => {
